@@ -1,0 +1,44 @@
+# Chapter 10: adding a model-graded check (llm-rubric).
+# For a 4-label classifier a code check is enough; this
+# file only shows the syntax. A judge needs validating
+# before you trust it (Chapter 8).
+description: ticket-triage with a rubric check
+
+prompts:
+  - id: file://prompts/triage-v1.json
+    label: A-v1
+  - id: file://prompts/triage-v2.json
+    label: B-v2
+
+providers:
+  - id: anthropic:messages:claude-haiku-5-5
+    label: haiku
+    config:
+      max_tokens: 1024
+      effort: low
+
+tests: file://tests.csv
+
+defaultTest:
+  options:
+    # The grader: a different, stronger model.
+    provider:
+      id: anthropic:messages:claude-sonnet-5-5
+      config:
+        max_tokens: 1024
+        effort: low
+  assert:
+    - type: javascript
+      metric: accuracy
+      value: >-
+        output.trim().toLowerCase() ===
+        context.vars.expected.toLowerCase()
+    - type: llm-rubric
+      metric: format
+      value: >-
+        The output is exactly one of: refund,
+        delivery, account, other.
+
+evaluateOptions:
+  repeat: 3
+  maxConcurrency: 4

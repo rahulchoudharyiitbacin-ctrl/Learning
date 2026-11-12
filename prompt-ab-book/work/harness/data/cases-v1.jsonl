@@ -1,0 +1,20 @@
+{"id": "t01", "input": "I was charged twice for the same order, please fix this.", "expected": "refund"}
+{"id": "t02", "input": "My order is 50 minutes late and nobody is answering.", "expected": "delivery"}
+{"id": "t03", "input": "I forgot my password and the reset email never comes.", "expected": "account"}
+{"id": "t04", "input": "Do you have a vegan menu?", "expected": "other"}
+{"id": "t05", "input": "The food arrived cold, I want my money back.", "expected": "refund"}
+{"id": "t06", "input": "Where is my driver? The map has not moved for 20 minutes.", "expected": "delivery"}
+{"id": "t07", "input": "Please delete my account and all my data.", "expected": "account"}
+{"id": "t08", "input": "Can I change the delivery address for my current order?", "expected": "delivery"}
+{"id": "t09", "input": "Your app crashed during payment and I was charged.", "expected": "refund"}
+{"id": "t10", "input": "How do I update my phone number?", "expected": "account"}
+{"id": "t11", "input": "Great service last night, thanks!", "expected": "other"}
+{"id": "t12", "input": "The restaurant gave me the wrong items. I need a refund.", "expected": "refund"}
+{"id": "t13", "input": "My order says delivered but I never received it.", "expected": "delivery"}
+{"id": "t14", "input": "Why was my promo code rejected?", "expected": "other"}
+{"id": "t15", "input": "I can't log in with my new email address.", "expected": "account"}
+{"id": "t16", "input": "Is there a way to tip the driver after delivery?", "expected": "other"}
+{"id": "t17", "input": "I'd like to be reimbursed for the missing dessert.", "expected": "refund"}
+{"id": "t18", "input": "The driver went to the wrong building.", "expected": "delivery"}
+{"id": "t19", "input": "Can you recommend a good Italian place nearby?", "expected": "other"}
+{"id": "t20", "input": "My account shows an order I never placed, and I was billed for it.", "expected": "account"}

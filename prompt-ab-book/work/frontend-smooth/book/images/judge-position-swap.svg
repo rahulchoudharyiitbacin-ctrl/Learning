@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" font-family="Helvetica, Arial, sans-serif">
+  <defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#56616a"/></marker></defs>
+  <g font-size="21" fill="#1d262d" text-anchor="middle">
+    <rect x="20" y="8" width="270" height="78" rx="10" fill="#eef1f2" stroke="#c9d3d8"/><text x="155" y="36" font-weight="700">Call 1</text><text x="155" y="62" font-size="19">first: A, second: B</text>
+    <rect x="310" y="8" width="270" height="78" rx="10" fill="#eef1f2" stroke="#c9d3d8"/><text x="445" y="36" font-weight="700">Call 2</text><text x="445" y="62" font-size="19">first: B, second: A</text>
+    <rect x="20" y="126" width="560" height="56" rx="10" fill="#f6e4cf" stroke="#b8661a"/><text x="300" y="161" font-weight="700">Compare the two verdicts</text>
+    <rect x="20" y="222" width="175" height="80" rx="10" fill="#d3eeea" stroke="#13857a"/><text x="107" y="252" font-size="19">both pick A</text><text x="107" y="284" font-weight="700">A wins</text>
+    <rect x="212" y="222" width="175" height="80" rx="10" fill="#d3eeea" stroke="#13857a"/><text x="300" y="252" font-size="19">both pick B</text><text x="300" y="284" font-weight="700">B wins</text>
+    <rect x="405" y="222" width="175" height="80" rx="10" fill="#ffffff" stroke="#56616a" stroke-width="2"/><text x="492" y="252" font-size="19">they disagree</text><text x="492" y="284" font-weight="700">tie</text>
+  </g>
+  <path d="M155 88 V122" stroke="#56616a" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <path d="M445 88 V122" stroke="#56616a" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <path d="M107 184 V218" stroke="#56616a" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <path d="M300 184 V218" stroke="#56616a" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <path d="M492 184 V218" stroke="#56616a" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <text x="300" y="340" font-size="18" fill="#56616a" text-anchor="middle">the conservative swap rule in Zheng et al. (2023)</text>
+</svg>

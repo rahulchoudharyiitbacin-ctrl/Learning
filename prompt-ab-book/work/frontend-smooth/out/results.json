@@ -1,0 +1,355 @@
+[
+ {
+  "version": "before",
+  "viewport": "desktop",
+  "renderMs": 767,
+  "compat": "BackCompat",
+  "nodes": 7803,
+  "leavesInDom": 160,
+  "turn_open_cover": {
+   "frames": 42,
+   "maxGapMs": 250,
+   "over33ms": 6,
+   "p95": 133.8,
+   "zViolations": 0,
+   "zSamples": 43,
+   "maxLeavesMoving": 1,
+   "where": "Contents"
+  },
+  "turn_next": {
+   "frames": 70,
+   "maxGapMs": 66.7,
+   "over33ms": 8,
+   "p95": 50,
+   "zViolations": 0,
+   "zSamples": 71,
+   "maxLeavesMoving": 1,
+   "where": "Contents"
+  },
+  "turn_rapid3": {
+   "frames": 80,
+   "maxGapMs": 66.7,
+   "over33ms": 10,
+   "p95": 50,
+   "zViolations": 27,
+   "zSamples": 81,
+   "maxLeavesMoving": 3,
+   "where": "Chapter 1 of 16 \u00b7 page 9\u201310 of 317"
+  },
+  "turn_reverse_midflight": {
+   "frames": 77,
+   "maxGapMs": 66.7,
+   "over33ms": 12,
+   "p95": 50.6,
+   "zViolations": 0,
+   "zSamples": 78,
+   "maxLeavesMoving": 1,
+   "where": "Chapter 1 of 16 \u00b7 page 9\u201310 of 317"
+  },
+  "toc_click_ch3": {
+   "frames": 205,
+   "maxGapMs": 83.8,
+   "over33ms": 28,
+   "p95": 66.7,
+   "zViolations": 39,
+   "zSamples": 206,
+   "maxLeavesMoving": 8,
+   "where": "Chapter 3 of 16 \u00b7 page 31\u201332 of 317"
+  },
+  "far_jump_ch16": {
+   "frames": 1080,
+   "maxGapMs": 200,
+   "over33ms": 135,
+   "p95": 100.1,
+   "zViolations": 246,
+   "zSamples": 1081,
+   "maxLeavesMoving": 10,
+   "where": "Chapter 15 of 16 \u00b7 page 289\u2013290 of 317"
+  },
+  "nodesAfterJump": 7803,
+  "turn_prev": {
+   "frames": 48,
+   "maxGapMs": 166.7,
+   "over33ms": 8,
+   "p95": 117.7,
+   "zViolations": 0,
+   "zSamples": 49,
+   "maxLeavesMoving": 1,
+   "where": "Chapter 15 of 16 \u00b7 page 287\u2013288 of 317"
+  },
+  "hScroll": false,
+  "savedPage": "287",
+  "whereAfterReload": "Chapter 15 of 16 \u00b7 page 287\u2013288 of 317",
+  "resizeRelayoutMs": 73.6,
+  "keyboardTurns": true,
+  "consoleErrors": [],
+  "overflowingPages": [
+   308
+  ]
+ },
+ {
+  "version": "after",
+  "viewport": "desktop",
+  "renderMs": 475,
+  "compat": "CSS1Compat",
+  "nodes": 169,
+  "leavesInDom": 3,
+  "turn_open_cover": {
+   "frames": 94,
+   "maxGapMs": 17.7,
+   "over33ms": 0,
+   "p95": 17.7,
+   "zViolations": 0,
+   "zSamples": 95,
+   "maxLeavesMoving": 1,
+   "where": "Contents"
+  },
+  "turn_next": {
+   "frames": 93,
+   "maxGapMs": 17.7,
+   "over33ms": 0,
+   "p95": 17.6,
+   "zViolations": 0,
+   "zSamples": 94,
+   "maxLeavesMoving": 1,
+   "where": "Contents"
+  },
+  "turn_rapid3": {
+   "frames": 116,
+   "maxGapMs": 17.7,
+   "over33ms": 0,
+   "p95": 17.7,
+   "zViolations": 0,
+   "zSamples": 117,
+   "maxLeavesMoving": 3,
+   "where": "Chapter 1 of 16 \u00b7 page 9\u201310 of 317"
+  },
+  "turn_reverse_midflight": {
+   "frames": 116,
+   "maxGapMs": 17.7,
+   "over33ms": 0,
+   "p95": 17.6,
+   "zViolations": 0,
+   "zSamples": 117,
+   "maxLeavesMoving": 1,
+   "where": "Chapter 1 of 16 \u00b7 page 9\u201310 of 317"
+  },
+  "toc_click_ch3": {
+   "frames": 214,
+   "maxGapMs": 17.7,
+   "over33ms": 0,
+   "p95": 17.6,
+   "zViolations": 0,
+   "zSamples": 215,
+   "maxLeavesMoving": 6,
+   "where": "Chapter 3 of 16 \u00b7 page 31\u201332 of 317"
+  },
+  "far_jump_ch16": {
+   "frames": 183,
+   "maxGapMs": 17.8,
+   "over33ms": 0,
+   "p95": 17.6,
+   "zViolations": 0,
+   "zSamples": 184,
+   "maxLeavesMoving": 6,
+   "where": "Chapter 15 of 16 \u00b7 page 289\u2013290 of 317"
+  },
+  "nodesAfterJump": 378,
+  "turn_prev": {
+   "frames": 92,
+   "maxGapMs": 17.7,
+   "over33ms": 0,
+   "p95": 17.6,
+   "zViolations": 0,
+   "zSamples": 93,
+   "maxLeavesMoving": 1,
+   "where": "Chapter 15 of 16 \u00b7 page 287\u2013288 of 317"
+  },
+  "hScroll": false,
+  "savedPage": "287",
+  "whereAfterReload": "Chapter 15 of 16 \u00b7 page 287\u2013288 of 317",
+  "resizeRelayoutMs": 10.2,
+  "keyboardTurns": true,
+  "consoleErrors": [],
+  "overflowingPages": [
+   147,
+   308
+  ]
+ },
+ {
+  "version": "before",
+  "viewport": "phone",
+  "renderMs": 643,
+  "compat": "BackCompat",
+  "nodes": 8598,
+  "leavesInDom": 319,
+  "turn_open_cover": {
+   "frames": 69,
+   "maxGapMs": 100,
+   "over33ms": 8,
+   "p95": 65.7,
+   "zViolations": 0,
+   "zSamples": 0,
+   "maxLeavesMoving": 0,
+   "where": "Contents"
+  },
+  "turn_next": {
+   "frames": 69,
+   "maxGapMs": 83.3,
+   "over33ms": 7,
+   "p95": 82.4,
+   "zViolations": 0,
+   "zSamples": 0,
+   "maxLeavesMoving": 0,
+   "where": "Contents"
+  },
+  "turn_rapid3": {
+   "frames": 70,
+   "maxGapMs": 117.6,
+   "over33ms": 14,
+   "p95": 83.4,
+   "zViolations": 0,
+   "zSamples": 0,
+   "maxLeavesMoving": 0,
+   "where": "Contents"
+  },
+  "turn_reverse_midflight": {
+   "frames": 69,
+   "maxGapMs": 100,
+   "over33ms": 11,
+   "p95": 83.4,
+   "zViolations": 0,
+   "zSamples": 0,
+   "maxLeavesMoving": 0,
+   "where": "Contents"
+  },
+  "toc_click_ch3": {
+   "frames": 146,
+   "maxGapMs": 133.4,
+   "over33ms": 42,
+   "p95": 84.3,
+   "zViolations": 0,
+   "zSamples": 0,
+   "maxLeavesMoving": 0,
+   "where": "Chapter 3 of 16 \u00b7 page 31 of 317"
+  },
+  "far_jump_ch16": {
+   "frames": 1101,
+   "maxGapMs": 116.8,
+   "over33ms": 261,
+   "p95": 66.3,
+   "zViolations": 0,
+   "zSamples": 0,
+   "maxLeavesMoving": 0,
+   "where": "Chapter 16 of 16 \u00b7 page 290 of 317"
+  },
+  "nodesAfterJump": 8598,
+  "turn_prev": {
+   "frames": 92,
+   "maxGapMs": 17.6,
+   "over33ms": 0,
+   "p95": 17.5,
+   "zViolations": 0,
+   "zSamples": 0,
+   "maxLeavesMoving": 0,
+   "where": "Chapter 15 of 16 \u00b7 page 289 of 317"
+  },
+  "hScroll": false,
+  "savedPage": "289",
+  "whereAfterReload": "Chapter 15 of 16 \u00b7 page 289 of 317",
+  "resizeRelayoutMs": 31.3,
+  "keyboardTurns": true,
+  "consoleErrors": [],
+  "overflowingPages": [
+   "missing leaf 319"
+  ]
+ },
+ {
+  "version": "after",
+  "viewport": "phone",
+  "renderMs": 440,
+  "compat": "CSS1Compat",
+  "nodes": 94,
+  "leavesInDom": 3,
+  "turn_open_cover": {
+   "frames": 92,
+   "maxGapMs": 17.6,
+   "over33ms": 0,
+   "p95": 17.6,
+   "zViolations": 0,
+   "zSamples": 0,
+   "maxLeavesMoving": 0,
+   "where": "Contents"
+  },
+  "turn_next": {
+   "frames": 93,
+   "maxGapMs": 17.6,
+   "over33ms": 0,
+   "p95": 17.6,
+   "zViolations": 0,
+   "zSamples": 0,
+   "maxLeavesMoving": 0,
+   "where": "Contents"
+  },
+  "turn_rapid3": {
+   "frames": 116,
+   "maxGapMs": 17.7,
+   "over33ms": 0,
+   "p95": 17.6,
+   "zViolations": 0,
+   "zSamples": 0,
+   "maxLeavesMoving": 0,
+   "where": "Contents"
+  },
+  "turn_reverse_midflight": {
+   "frames": 117,
+   "maxGapMs": 17.7,
+   "over33ms": 0,
+   "p95": 17.5,
+   "zViolations": 0,
+   "zSamples": 0,
+   "maxLeavesMoving": 0,
+   "where": "Contents"
+  },
+  "toc_click_ch3": {
+   "frames": 214,
+   "maxGapMs": 17.7,
+   "over33ms": 0,
+   "p95": 17.5,
+   "zViolations": 0,
+   "zSamples": 0,
+   "maxLeavesMoving": 0,
+   "where": "Chapter 3 of 16 \u00b7 page 31 of 317"
+  },
+  "far_jump_ch16": {
+   "frames": 182,
+   "maxGapMs": 17.7,
+   "over33ms": 0,
+   "p95": 17.5,
+   "zViolations": 0,
+   "zSamples": 0,
+   "maxLeavesMoving": 0,
+   "where": "Chapter 16 of 16 \u00b7 page 290 of 317"
+  },
+  "nodesAfterJump": 220,
+  "turn_prev": {
+   "frames": 93,
+   "maxGapMs": 17.6,
+   "over33ms": 0,
+   "p95": 17.5,
+   "zViolations": 0,
+   "zSamples": 0,
+   "maxLeavesMoving": 0,
+   "where": "Chapter 15 of 16 \u00b7 page 289 of 317"
+  },
+  "hScroll": false,
+  "savedPage": "289",
+  "whereAfterReload": "Chapter 15 of 16 \u00b7 page 289 of 317",
+  "resizeRelayoutMs": 1.9,
+  "keyboardTurns": true,
+  "consoleErrors": [],
+  "overflowingPages": [
+   "missing leaf 319"
+  ]
+ }
+]

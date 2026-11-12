@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 340" font-family="Helvetica, Arial, sans-serif">
+  <defs><marker id="ar" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0 L12 6 L0 12 z" fill="#56616a"/></marker></defs>
+  <text x="150" y="32" text-anchor="middle" font-size="20" font-weight="700" letter-spacing="2" fill="#13857a">ONLINE</text>
+  <text x="450" y="32" text-anchor="middle" font-size="20" font-weight="700" letter-spacing="2" fill="#13857a">OFFLINE</text>
+  <line x1="300" y1="50" x2="300" y2="325" stroke="#dcd8cc" stroke-width="2" stroke-dasharray="6 6"/>
+  <g font-size="20" fill="#1d262d" text-anchor="middle">
+    <rect x="75" y="50" width="150" height="50" rx="10" fill="#eef1f2" stroke="#56616a"/><text x="150" y="82">Users</text>
+    <rect x="20" y="165" width="120" height="60" rx="10" fill="#f6e4cf" stroke="#b8661a"/><text x="80" y="202">Group A</text>
+    <rect x="160" y="165" width="120" height="60" rx="10" fill="#d3eeea" stroke="#13857a"/><text x="220" y="202">Group B</text>
+    <rect x="375" y="50" width="150" height="50" rx="10" fill="#eef1f2" stroke="#56616a"/><text x="450" y="82">Test cases</text>
+  </g>
+  <line x1="125" y1="102" x2="88" y2="158" stroke="#56616a" stroke-width="3" marker-end="url(#ar)"/>
+  <line x1="175" y1="102" x2="212" y2="158" stroke="#56616a" stroke-width="3" marker-end="url(#ar)"/>
+  <text x="150" y="146" text-anchor="middle" font-size="18" fill="#56616a">random</text>
+  <g font-size="19" fill="#1d262d">
+    <text x="318" y="147">Case 1</text><text x="318" y="192">Case 2</text><text x="318" y="237">Case 3</text>
+  </g>
+  <g font-size="19" fill="#1d262d" text-anchor="middle">
+    <rect x="410" y="122" width="44" height="34" rx="6" fill="#f6e4cf" stroke="#b8661a"/><text x="432" y="146">A</text>
+    <rect x="462" y="122" width="44" height="34" rx="6" fill="#d3eeea" stroke="#13857a"/><text x="484" y="146">B</text>
+    <text x="555" y="146">d1</text>
+    <rect x="410" y="167" width="44" height="34" rx="6" fill="#f6e4cf" stroke="#b8661a"/><text x="432" y="191">A</text>
+    <rect x="462" y="167" width="44" height="34" rx="6" fill="#d3eeea" stroke="#13857a"/><text x="484" y="191">B</text>
+    <text x="555" y="191">d2</text>
+    <rect x="410" y="212" width="44" height="34" rx="6" fill="#f6e4cf" stroke="#b8661a"/><text x="432" y="236">A</text>
+    <rect x="462" y="212" width="44" height="34" rx="6" fill="#d3eeea" stroke="#13857a"/><text x="484" y="236">B</text>
+    <text x="555" y="236">d3</text>
+  </g>
+  <g font-size="18" fill="#56616a" text-anchor="middle">
+    <text x="150" y="290">Each user sees one</text><text x="150" y="316">Fair by random split</text>
+    <text x="450" y="290">Every case gets both</text><text x="450" y="316">d = B minus A</text>
+  </g>
+</svg>

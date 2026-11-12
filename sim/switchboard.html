@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Switchboard Simulator</title>
+<style>
+:root {
+  --bg: #f4f2ee; --panel: #ffffff; --ink: #1d1d1f; --muted: #6b6b70; --line: #e2dfd8;
+  --accent: #2f6fde; --ok: #1f9d55; --off: #c9c5bd; --red: #e5383b; --white: #fff7d6; --chip: #efece6;
+  --code: #f7f5f1;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141416; --panel: #1e1e22; --ink: #ececef; --muted: #9a9aa2; --line: #2e2e34;
+    --accent: #6e9bff; --ok: #3ccf7f; --off: #3a3a42; --chip: #2a2a30; --code: #18181b;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141416; --panel: #1e1e22; --ink: #ececef; --muted: #9a9aa2; --line: #2e2e34;
+  --accent: #6e9bff; --ok: #3ccf7f; --off: #3a3a42; --chip: #2a2a30; --code: #18181b;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+main { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+.sub { color: var(--muted); margin: 0 0 20px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+.devices { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.dev { text-align: center; cursor: pointer; user-select: none; transition: border-color .2s; }
+.dev:hover { border-color: var(--accent); }
+.dev .name { font-weight: 600; margin-top: 8px; }
+.dev .state { font-size: 13px; color: var(--muted); }
+.dev.on .state { color: var(--ok); font-weight: 600; }
+.icon { height: 84px; display: flex; align-items: center; justify-content: center; }
+.bulb { width: 56px; height: 56px; border-radius: 50%; background: var(--off); transition: all .25s; }
+.dev.on .bulb.red { background: var(--red); box-shadow: 0 0 28px 8px rgba(229,56,59,.55); }
+.dev.on .bulb.white { background: var(--white); box-shadow: 0 0 30px 10px rgba(255,236,160,.75); border: 1px solid #e8d98f; }
+.fan svg { width: 70px; height: 70px; fill: var(--off); transition: fill .25s; }
+.dev.on .fan svg { fill: var(--accent); animation: spin .6s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.socket { width: 60px; height: 60px; border-radius: 12px; border: 3px solid var(--off); position: relative; transition: border-color .25s; }
+.socket::before, .socket::after { content: ""; position: absolute; top: 18px; width: 9px; height: 16px; border-radius: 3px; background: var(--off); transition: background .25s; }
+.socket::before { left: 13px; } .socket::after { right: 13px; }
+.dev.on .socket { border-color: var(--ok); } .dev.on .socket::before, .dev.on .socket::after { background: var(--ok); }
+.relays { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+.relays .label { color: var(--muted); font-size: 13px; margin-right: 4px; }
+.relay { font: 12px ui-monospace, Menlo, monospace; padding: 4px 9px; border-radius: 6px; background: var(--chip); border: 1px solid var(--line); }
+.relay .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--off); margin-right: 6px; vertical-align: 0; }
+.relay.on .dot { background: var(--ok); }
+.cmd { display: flex; gap: 8px; margin-bottom: 10px; }
+.cmd input { flex: 1; min-width: 0; padding: 11px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font-size: 15px; }
+button { padding: 10px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--accent); color: #fff; font-size: 14px; cursor: pointer; white-space: nowrap; }
+button.ghost { background: var(--chip); color: var(--ink); }
+button.listening { background: var(--red); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.chip { font-size: 13px; padding: 5px 10px; border-radius: 99px; background: var(--chip); border: 1px solid var(--line); cursor: pointer; color: var(--ink); }
+.log { font: 13px/1.55 ui-monospace, Menlo, monospace; background: var(--code); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; max-height: 320px; overflow: auto; }
+.entry { padding: 6px 0; border-bottom: 1px dashed var(--line); }
+.entry:last-child { border-bottom: 0; }
+.k { color: var(--muted); display: inline-block; min-width: 92px; }
+.reply { color: var(--ok); } .warn { color: var(--red); }
+.note { color: var(--muted); font-size: 13px; margin-top: 10px; }
+@media (max-width: 520px) { .k { min-width: 0; display: block; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Voice switchboard simulator</h1>
+  <p class="sub">The whole pipeline in software: voice or text → understand the command → send it to the switch board → relay clicks → device changes → spoken reply. Click a device to flip it like a wall switch.</p>
+
+  <section class="devices" id="devices"></section>
+
+  <div class="relays card" id="relays"><span class="label">ESP32 relay channels:</span></div>
+
+  <section class="card">
+    <div class="cmd">
+      <input id="text" placeholder='Try "turn off the white light" or "pankha chalu karo"' autocomplete="off">
+      <button id="send">Send</button>
+      <button id="mic" class="ghost" title="Speak a command">🎤 Speak</button>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="log" id="log"></div>
+    <p class="note" id="micnote">Voice input uses your browser's speech recognition (works in Chrome). Replies are spoken aloud if your browser supports it.</p>
+  </section>
+</main>
+
+<script>
+// ---- Device config: in the real build this lives in devices.yaml ----
+const DEVICES = [
+  { id: "red_light",   name: "Red light",   channel: 1, icon: "bulb red",  kind: "light",
+    words: ["red light", "red bulb", "red", "laal", "lal"] },
+  { id: "white_light", name: "White light", channel: 2, icon: "bulb white", kind: "light",
+    words: ["white light", "tube light", "tubelight", "white", "safed", "safed batti"] },
+  { id: "fan",         name: "Fan",         channel: 3, icon: "fan", kind: "fan",
+    words: ["fan", "pankha", "pankhe", "pankhaa"] },
+  { id: "socket",      name: "Plug socket", channel: 4, icon: "socket", kind: "socket",
+    words: ["plug point", "plug", "socket", "charger", "switch board socket"] },
+];
+const state = Object.fromEntries(DEVICES.map(d => [d.id, false]));
+
+const ON_WORDS  = ["on", "chalu", "chaalu", "start", "jala", "jalao", "jalado", "open"];
+const OFF_WORDS = ["off", "band", "bandh", "stop", "shut", "bujha", "bujhao", "close"];
+const TOGGLE_WORDS = ["toggle", "flip"];
+const ALL_WORDS = ["everything", "all", "sab", "sabhi", "saare", "sare"];
+const GENERIC_LIGHT = ["light", "lights", "bulb", "bulbs", "batti", "battiyan", "lamp"];
+const STATUS_WORDS = ["status", "which", "what's", "whats", "kya", "kaun"];
+
+// ---- 1. Understanding: text -> command (Phase 2 swaps this for a small AI) ----
+function parse(text) {
+  const clean = " " + text.toLowerCase().replace(/[^a-z0-9' ]+/g, " ").replace(/\s+/g, " ").trim() + " ";
+  const tokens = clean.trim().split(" ");
+  const has = w => clean.includes(" " + w + " ");
+
+  const COMMAND_VERBS = ["turn", "switch", "karo", "kar", "kardo", "please", "jalao", "bujhao", "toggle", "start", "stop"];
+  if (STATUS_WORDS.some(has) && !COMMAND_VERBS.some(has)) return { intent: "status" };
+
+  let action = null, pos = -1;
+  tokens.forEach((t, i) => {
+    if (ON_WORDS.includes(t) && i >= pos) { action = "on"; pos = i; }
+    if (OFF_WORDS.includes(t) && i >= pos) { action = "off"; pos = i; }
+    if (TOGGLE_WORDS.includes(t) && i >= pos) { action = "toggle"; pos = i; }
+  });
+
+  let targets = [];
+  for (const d of DEVICES) if (d.words.some(has)) targets.push(d.id);
+  if (!targets.length && GENERIC_LIGHT.some(has))
+    targets = DEVICES.filter(d => d.kind === "light").map(d => d.id);
+  if (ALL_WORDS.some(has)) {
+    targets = (GENERIC_LIGHT.some(has) && !has("everything"))
+      ? DEVICES.filter(d => d.kind === "light").map(d => d.id)
+      : DEVICES.map(d => d.id);
+  }
+  return { intent: "switch", action, targets };
+}
+
+// ---- 2. Switch node: what the ESP32 would receive and do ----
+function sendToSwitchNode(id, on) {
+  const d = DEVICES.find(x => x.id === id);
+  state[id] = on;
+  click();
+  return JSON.stringify({ ch: d.channel, state: on ? "ON" : "OFF" });
+}
+
+// ---- 3. Handle one command end to end ----
+function handle(text, source) {
+  text = text.trim();
+  if (!text) return;
+  const cmd = parse(text);
+  const lines = [[source === "voice" ? "Heard" : "Typed", `"${text}"`]];
+  let reply;
+
+  if (cmd.intent === "status") {
+    const on = DEVICES.filter(d => state[d.id]).map(d => d.name.toLowerCase());
+    reply = on.length ? `On right now: ${on.join(", ")}.` : "Everything is off.";
+    lines.push(["Understood", '{"intent":"status"}']);
+  } else if (!cmd.targets.length) {
+    reply = "Sorry, which device? I know the red light, white light, fan and plug socket.";
+    lines.push(["Understood", JSON.stringify({ action: cmd.action, device: null })]);
+  } else if (!cmd.action) {
+    reply = `Should I turn the ${names(cmd.targets)} on or off?`;
+    lines.push(["Understood", JSON.stringify({ action: null, devices: cmd.targets })]);
+  } else {
+    lines.push(["Understood", JSON.stringify({ action: cmd.action, devices: cmd.targets })]);
+    const sent = [];
+    for (const id of cmd.targets) {
+      const on = cmd.action === "toggle" ? !state[id] : cmd.action === "on";
+      sent.push(sendToSwitchNode(id, on));
+    }
+    lines.push(["To ESP32", sent.join("  ")]);
+    reply = cmd.action === "toggle"
+      ? `Toggled the ${names(cmd.targets)}.`
+      : `Turning ${cmd.action} the ${names(cmd.targets)}.`;
+  }
+  lines.push(["Reply", reply]);
+  log(lines, !cmd.targets || !cmd.targets.length || (cmd.intent === "switch" && !cmd.action));
+  render();
+  speak(reply);
+}
+const names = ids => {
+  const n = ids.map(id => DEVICES.find(d => d.id === id).name.toLowerCase());
+  return n.length > 1 ? n.slice(0, -1).join(", ") + " and " + n.at(-1) : n[0];
+};
+
+// ---- UI ----
+const $ = id => document.getElementById(id);
+function render() {
+  $("devices").innerHTML = DEVICES.map(d => `
+    <div class="card dev ${state[d.id] ? "on" : ""}" data-id="${d.id}" role="button" tabindex="0" aria-pressed="${state[d.id]}">
+      <div class="icon">${d.icon === "fan"
+        ? '<div class="fan"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="8"/><path d="M50 42c-4-18 2-34 10-36s8 12-2 36zM58 50c18-4 34 2 36 10s-12 8-36-2zM50 58c4 18-2 34-10 36s-8-12 2-36zM42 50c-18 4-34-2-36-10s12-8 36 2z"/></svg></div>'
+        : d.icon === "socket" ? '<div class="socket"></div>' : `<div class="${d.icon}"></div>`}</div>
+      <div class="name">${d.name}</div>
+      <div class="state">Relay ${d.channel} · ${state[d.id] ? "ON" : "OFF"}</div>
+    </div>`).join("");
+  $("relays").innerHTML = '<span class="label">ESP32 relay channels:</span>' + DEVICES.map(d =>
+    `<span class="relay ${state[d.id] ? "on" : ""}"><span class="dot"></span>CH${d.channel} ${state[d.id] ? "ON " : "OFF"}</span>`).join("");
+}
+function log(lines, warn) {
+  const el = document.createElement("div");
+  el.className = "entry";
+  el.innerHTML = lines.map(([k, v]) =>
+    `<div><span class="k">${k}</span><span class="${k === "Reply" ? (warn ? "warn" : "reply") : ""}">${escapeHtml(v)}</span></div>`).join("");
+  $("log").prepend(el);
+}
+const escapeHtml = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+$("devices").addEventListener("click", e => {
+  const card = e.target.closest(".dev"); if (!card) return;
+  const d = DEVICES.find(x => x.id === card.dataset.id);
+  handle(`${state[d.id] ? "turn off" : "turn on"} the ${d.words[0]}`, "switch");
+});
+$("send").onclick = () => { handle($("text").value, "text"); $("text").value = ""; };
+$("text").addEventListener("keydown", e => { if (e.key === "Enter") $("send").click(); });
+
+const EXAMPLES = ["turn off the white light", "pankha chalu karo", "switch on all the lights",
+  "laal batti band karo", "turn on the fan and the red light", "sab band karo", "what's on?", "toggle the socket", "turn on the light"];
+$("chips").innerHTML = EXAMPLES.map(x => `<span class="chip">${x}</span>`).join("");
+$("chips").onclick = e => { if (e.target.classList.contains("chip")) handle(e.target.textContent, "text"); };
+
+// Relay click sound
+let ac;
+function click() {
+  try {
+    ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+    const o = ac.createOscillator(), g = ac.createGain();
+    o.frequency.value = 1800; g.gain.setValueAtTime(0.15, ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.04);
+    o.connect(g).connect(ac.destination); o.start(); o.stop(ac.currentTime + 0.05);
+  } catch (_) {}
+}
+// Spoken reply (the "speaker")
+function speak(text) {
+  try { if ("speechSynthesis" in window) { speechSynthesis.cancel(); speechSynthesis.speak(new SpeechSynthesisUtterance(text)); } } catch (_) {}
+}
+// Voice input (the "microphone")
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (!SR) {
+  $("mic").disabled = true; $("mic").title = "Speech recognition isn't available in this browser";
+  $("micnote").textContent = "Voice input isn't available in this browser. Open this file in Chrome to speak commands; typing works everywhere.";
+} else {
+  const rec = new SR(); rec.lang = "en-IN"; rec.interimResults = false;
+  rec.onresult = e => handle(e.results[0][0].transcript, "voice");
+  rec.onend = () => { $("mic").classList.remove("listening"); $("mic").textContent = "🎤 Speak"; };
+  rec.onerror = e => log([["Mic error", e.error]], true);
+  $("mic").onclick = () => { rec.start(); $("mic").classList.add("listening"); $("mic").textContent = "Listening…"; };
+}
+
+// Expose for testing
+window.sim = { parse, handle, state };
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" font-family="Helvetica, Arial, sans-serif">
+  <defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#56616a"/></marker></defs>
+  <g font-size="20" fill="#1d262d" text-anchor="middle">
+    <rect x="10" y="8" width="280" height="44" rx="8" fill="#f6e4cf" stroke="#b8661a"/><text x="150" y="37">Real traffic sample</text>
+    <rect x="310" y="8" width="280" height="44" rx="8" fill="#f6e4cf" stroke="#b8661a"/><text x="450" y="37">Failures you understood</text>
+    <rect x="10" y="62" width="280" height="44" rx="8" fill="#f6e4cf" stroke="#b8661a"/><text x="150" y="91">Hand-written edge cases</text>
+    <rect x="310" y="62" width="280" height="44" rx="8" fill="#f6e4cf" stroke="#b8661a"/><text x="450" y="91">Synthetic cases</text>
+    <rect x="60" y="150" width="480" height="84" rx="12" fill="#d3eeea" stroke="#13857a" stroke-width="2"/>
+    <text x="300" y="183" font-size="24" font-weight="700">Eval set v1</text>
+    <text x="300" y="214" font-size="18" fill="#56616a">labelled, tagged by slice, frozen, versioned</text>
+    <rect x="10" y="288" width="280" height="96" rx="12" fill="#ffffff" stroke="#13857a" stroke-width="2"/>
+    <text x="150" y="322" font-size="23" font-weight="700">Dev</text><text x="150" y="350" font-size="18" fill="#56616a">tune and debug here</text><text x="150" y="372" font-size="18" fill="#56616a">look at it often</text>
+    <rect x="310" y="288" width="280" height="96" rx="12" fill="#ffffff" stroke="#0b5e56" stroke-width="3"/>
+    <text x="450" y="322" font-size="23" font-weight="700">Test</text><text x="450" y="350" font-size="18" fill="#56616a">final check only</text><text x="450" y="372" font-size="18" fill="#56616a">open it rarely</text>
+  </g>
+  <path d="M300 110 V146 M200 236 L150 284 M400 236 L450 284" stroke="#56616a" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+</svg>

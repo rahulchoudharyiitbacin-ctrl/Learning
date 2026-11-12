@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" font-family="Helvetica, Arial, sans-serif">
+  <defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#56616a"/></marker></defs>
+  <text x="10" y="30" font-size="19" fill="#56616a">More realistic, slower, costlier</text>
+  <path d="M10 46 H588" stroke="#56616a" stroke-width="3" marker-end="url(#ar)"/>
+  <g text-anchor="middle" fill="#1d262d">
+    <rect x="10" y="230" width="180" height="115" rx="8" fill="#e3f3f0" stroke="#13857a"/>
+    <text x="100" y="262" font-size="16" letter-spacing="2" fill="#56616a">LEVEL 1</text>
+    <text x="100" y="292" font-size="24" font-weight="700">Unit tests</text>
+    <text x="100" y="324" font-size="19">seconds, ~free</text>
+
+    <rect x="210" y="160" width="180" height="185" rx="8" fill="#c4e6e1" stroke="#13857a"/>
+    <text x="300" y="192" font-size="16" letter-spacing="2" fill="#56616a">LEVEL 2</text>
+    <text x="300" y="224" font-size="24" font-weight="700">Human &amp;</text>
+    <text x="300" y="252" font-size="24" font-weight="700">model eval</text>
+    <text x="300" y="324" font-size="19">minutes to hours</text>
+
+    <rect x="410" y="90" width="180" height="255" rx="8" fill="#9fd6cf" stroke="#0b5e56" stroke-width="2"/>
+    <text x="500" y="122" font-size="16" letter-spacing="2" fill="#2b3a44">LEVEL 3</text>
+    <text x="500" y="154" font-size="24" font-weight="700">A/B test</text>
+    <text x="500" y="182" font-size="19">real users</text>
+    <text x="500" y="324" font-size="19">days to weeks</text>
+  </g>
+</svg>

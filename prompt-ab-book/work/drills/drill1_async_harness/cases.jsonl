@@ -1,0 +1,12 @@
+{"id": "c01", "input": "I want a refund for my broken kettle", "expected": "refund"}
+{"id": "c02", "input": "Where is my delivery? It is 5 days late", "expected": "delivery"}
+{"id": "c03", "input": "I cannot log in to my account", "expected": "account"}
+{"id": "c04", "input": "Do you sell gift cards?", "expected": "other"}
+{"id": "c05", "input": "Please refund the second charge", "expected": "refund"}
+{"id": "c06", "input": "The delivery driver left it at the wrong door", "expected": "delivery"}
+{"id": "c07", "input": "Reset my account password please", "expected": "account"}
+{"id": "c08", "input": "I want a refund for my broken kettle", "expected": "refund"}
+{"id": "c09", "input": "FLAKY: my account email is wrong", "expected": "account"}
+{"id": "c10", "input": "POISON: {weird} payload with braces", "expected": "other"}
+{"id": "c11", "input": "What are your opening hours?", "expected": "other"}
+{"id": "c12", "input": "Refund still missing after delivery was returned", "expected": "refund"}

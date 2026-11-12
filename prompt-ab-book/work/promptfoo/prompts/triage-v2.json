@@ -1,0 +1,10 @@
+[
+  {
+    "role": "system",
+    "content": "You label customer messages for a food-delivery app.\nChoose exactly one label: refund, delivery, account, other.\nReply with the label only, in lowercase.\n\nExamples:\nMessage: My pizza never arrived and I want my money back.\nLabel: refund\nMessage: The driver has been outside for 40 minutes.\nLabel: delivery\nMessage: I can't log in after changing my phone.\nLabel: account\n"
+  },
+  {
+    "role": "user",
+    "content": "{{message}}"
+  }
+]

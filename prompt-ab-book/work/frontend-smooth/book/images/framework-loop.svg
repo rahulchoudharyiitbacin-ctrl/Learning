@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260" font-family="Helvetica, Arial, sans-serif">
+<defs><marker id="ar" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#56616a"/></marker>
+<marker id="ao" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#b8661a"/></marker></defs>
+<text x="360" y="22" font-size="18" fill="#8a4a0e" text-anchor="middle">change one thing, run again</text>
+<path d="M540 50 V34 H180 V46" stroke="#b8661a" stroke-width="3" fill="none" marker-end="url(#ao)"/>
+<g font-size="19" font-weight="700" fill="#1d262d" text-anchor="middle">
+<rect x="10" y="50" width="100" height="50" rx="10" fill="#d3eeea" stroke="#13857a" stroke-width="2"/><text x="60" y="82">Dataset</text>
+<rect x="130" y="50" width="100" height="50" rx="10" fill="#d3eeea" stroke="#13857a" stroke-width="2"/><text x="180" y="82">Task</text>
+<rect x="250" y="50" width="100" height="50" rx="10" fill="#d3eeea" stroke="#13857a" stroke-width="2"/><text x="300" y="82">Scorer</text>
+<rect x="370" y="50" width="100" height="50" rx="10" fill="#d3eeea" stroke="#13857a" stroke-width="2"/><text x="420" y="82">Run</text>
+<rect x="490" y="50" width="100" height="50" rx="10" fill="#d3eeea" stroke="#13857a" stroke-width="2"/><text x="540" y="82">Compare</text>
+</g>
+<path d="M112 75 H126" stroke="#56616a" stroke-width="3" fill="none" marker-end="url(#ar)"/><path d="M232 75 H246" stroke="#56616a" stroke-width="3" fill="none" marker-end="url(#ar)"/><path d="M352 75 H366" stroke="#56616a" stroke-width="3" fill="none" marker-end="url(#ar)"/><path d="M472 75 H486" stroke="#56616a" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+<rect x="4" y="118" width="592" height="62" rx="10" fill="#eef1f2" stroke="#c9d3d8"/>
+<text x="16" y="140" font-size="18" fill="#56616a">In promptfoo</text>
+<g font-size="18" fill="#0b5e56" text-anchor="middle"><text x="60" y="168">tests.csv</text><text x="180" y="168">prompts</text><text x="300" y="168">assert</text><text x="420" y="168">eval</text><text x="540" y="168">view</text></g>
+<rect x="4" y="190" width="592" height="62" rx="10" fill="#f6e4cf" stroke="#b8661a"/>
+<text x="16" y="212" font-size="18" fill="#8a4a0e">In your Chapter 4 harness</text>
+<g font-size="18" fill="#1d262d" text-anchor="middle"><text x="60" y="240">cases.jsonl</text><text x="180" y="240">prompts/</text><text x="300" y="240">graders.py</text><text x="420" y="240">job list</text><text x="540" y="240">summary</text></g>
+</svg>

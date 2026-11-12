@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 350" font-family="Helvetica, Arial, sans-serif">
+  <rect x="10" y="10" width="580" height="150" rx="10" fill="#eef1f2" stroke="#c9d3d8"/>
+  <text x="30" y="40" font-size="16" letter-spacing="2" fill="#56616a">HELD FIXED</text>
+  <g font-size="22" fill="#1d262d">
+    <rect x="30" y="55" width="262" height="40" rx="6" fill="#ffffff" stroke="#c9d3d8"/><text x="161" y="82" text-anchor="middle">Same model</text>
+    <rect x="308" y="55" width="262" height="40" rx="6" fill="#ffffff" stroke="#c9d3d8"/><text x="439" y="82" text-anchor="middle">Same settings</text>
+    <rect x="30" y="105" width="262" height="40" rx="6" fill="#ffffff" stroke="#c9d3d8"/><text x="161" y="132" text-anchor="middle">Same test set</text>
+    <rect x="308" y="105" width="262" height="40" rx="6" fill="#ffffff" stroke="#c9d3d8"/><text x="439" y="132" text-anchor="middle">Same grader</text>
+  </g>
+  <text x="300" y="192" text-anchor="middle" font-size="18" letter-spacing="2" fill="#13857a">ONLY THIS CHANGES</text>
+  <rect x="10" y="205" width="280" height="62" rx="10" fill="#f6e4cf" stroke="#b8661a" stroke-width="2"/>
+  <text x="150" y="245" text-anchor="middle" font-size="26" font-weight="700" fill="#8a4a0e">Prompt A</text>
+  <rect x="310" y="205" width="280" height="62" rx="10" fill="#d3eeea" stroke="#13857a" stroke-width="2"/>
+  <text x="450" y="245" text-anchor="middle" font-size="26" font-weight="700" fill="#0b5e56">Prompt B</text>
+  <path d="M150 270 V300 M450 270 V300" stroke="#56616a" stroke-width="3" fill="none"/>
+  <path d="M140 292 L150 304 L160 292 M440 292 L450 304 L460 292" stroke="#56616a" stroke-width="3" fill="none"/>
+  <rect x="10" y="308" width="280" height="36" rx="8" fill="#ffffff" stroke="#b8661a"/>
+  <text x="150" y="333" text-anchor="middle" font-size="21" fill="#1d262d">Score A</text>
+  <rect x="310" y="308" width="280" height="36" rx="8" fill="#ffffff" stroke="#13857a"/>
+  <text x="450" y="333" text-anchor="middle" font-size="21" fill="#1d262d">Score B</text>
+</svg>

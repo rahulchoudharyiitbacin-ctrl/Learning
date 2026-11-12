@@ -1,0 +1,10 @@
+{"id": "t01", "output": "{\"category\": \"refund\", \"urgent\": false, \"amount\": 24.5, \"items\": 1, \"order_id\": \"A-1001\"}", "expected": {"category": "refund", "urgent": false, "amount": 24.5, "items": 1, "order_id": "A-1001"}}
+{"id": "t02", "output": "```json\n{\"category\": \"delivery\", \"urgent\": true, \"amount\": 0, \"items\": 3}\n```", "expected": {"category": "delivery", "urgent": true, "amount": 0, "items": 3}}
+{"id": "t03", "output": "Here is the result:\n```\n{\"category\": \"account\", \"urgent\": false, \"amount\": 0.0, \"items\": 0}\n```\nLet me know!", "expected": {"category": "account", "urgent": false, "amount": 0, "items": 0}}
+{"id": "t04", "output": "{\"category\": \"Refund\", \"urgent\": \"no\", \"amount\": 12, \"items\": 2}", "expected": {"category": "refund", "urgent": false, "amount": 12, "items": 2}}
+{"id": "t05", "output": "{'category': 'other', 'urgent': False, 'amount': 0, 'items': 0}", "expected": {"category": "other", "urgent": false, "amount": 0, "items": 0}}
+{"id": "t06", "output": "Sure! {\"category\": \"delivery\", \"urgent\": 0, \"amount\": 5.99, \"items\": 1, \"confidence\": 0.9} Hope that helps.", "expected": {"category": "delivery", "urgent": false, "amount": 5.99, "items": 1}}
+{"id": "t07", "output": "{\"category\": \"refund\", \"urgent\": true, \"amount\": \"40.00\", \"items\": 1.0, \"order_id\": \"B-7\"}", "expected": {"category": "refund", "urgent": true, "amount": 40, "items": 1, "order_id": "B-7"}}
+{"id": "t08", "output": "{\"category\": \"other\", \"urgent\": false, \"items\": 0}", "expected": {"category": "other", "urgent": false, "amount": 0, "items": 0}}
+{"id": "t09", "output": "{\"category\": \"account\", \"urgent\": false, \"amount\": 0, \"items\": 0, \"order_id\": \"C-3\",}", "expected": {"category": "account", "urgent": false, "amount": 0, "items": 0, "order_id": "C-3"}}
+{"id": "t10", "output": "[\"refund\", false, 10, 1]", "expected": {"category": "refund", "urgent": false, "amount": 10, "items": 1}}

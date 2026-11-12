@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" font-family="Helvetica, Arial, sans-serif">
+  <defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#56616a"/></marker></defs>
+  <g font-size="21" fill="#1d262d" text-anchor="middle">
+    <rect x="110" y="8" width="380" height="56" rx="10" fill="#eef1f2" stroke="#c9d3d8"/><text x="300" y="34" font-weight="700">Expert labels</text><text x="300" y="56" font-size="18" fill="#56616a">PASS or FAIL, with a critique</text>
+    <rect x="20" y="96" width="170" height="56" rx="10" fill="#f6e4cf" stroke="#b8661a"/><text x="105" y="122" font-weight="700">train</text><text x="105" y="144" font-size="18" fill="#56616a">10 to 20%</text>
+    <rect x="215" y="96" width="170" height="56" rx="10" fill="#f6e4cf" stroke="#b8661a"/><text x="300" y="122" font-weight="700">dev</text><text x="300" y="144" font-size="18" fill="#56616a">40 to 45%</text>
+    <rect x="410" y="96" width="170" height="56" rx="10" fill="#f6e4cf" stroke="#b8661a"/><text x="495" y="122" font-weight="700">test</text><text x="495" y="144" font-size="18" fill="#56616a">40 to 45%</text>
+    <rect x="20" y="184" width="170" height="56" rx="10" fill="#d3eeea" stroke="#13857a"/><text x="105" y="210" font-weight="700">Judge prompt</text><text x="105" y="232" font-size="18" fill="#56616a">rubric + examples</text>
+    <rect x="215" y="184" width="170" height="56" rx="10" fill="#d3eeea" stroke="#13857a"/><text x="300" y="210" font-weight="700">Score dev</text><text x="300" y="232" font-size="18" fill="#56616a">TPR and TNR</text>
+    <rect x="410" y="184" width="170" height="56" rx="10" fill="#ffffff" stroke="#56616a" stroke-width="2"/><text x="495" y="210" font-weight="700">Score test</text><text x="495" y="232" font-size="18" fill="#56616a">once, at the end</text>
+    <rect x="410" y="300" width="170" height="56" rx="10" fill="#d3eeea" stroke="#13857a"/><text x="495" y="326" font-weight="700">Use the judge</text><text x="495" y="348" font-size="18" fill="#56616a">report TPR, TNR</text>
+    <rect x="20" y="300" width="340" height="56" rx="10" fill="#ffffff" stroke="#13857a" stroke-width="2" stroke-dasharray="7 6"/><text x="190" y="326" font-size="18">Re-validate when the model,</text><text x="190" y="348" font-size="18">prompt or criteria change</text>
+  </g>
+  <path d="M160 66 L110 92" stroke="#56616a" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <path d="M300 66 V92" stroke="#56616a" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <path d="M440 66 L490 92" stroke="#56616a" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <path d="M105 154 V180" stroke="#56616a" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <path d="M300 154 V180" stroke="#56616a" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <path d="M495 154 V180" stroke="#56616a" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <path d="M495 242 V296" stroke="#56616a" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <path d="M190 212 H211" stroke="#56616a" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <path d="M385 212 H406" stroke="#56616a" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <path d="M408 328 H364" stroke="#13857a" stroke-width="3" stroke-dasharray="7 6" fill="none" marker-end="url(#ar)"/>
+  <path d="M300 242 V270 H105 V244" stroke="#b8661a" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <text x="300" y="290" font-size="18" fill="#b8661a" text-anchor="middle">revise on dev, repeat</text>
+</svg>

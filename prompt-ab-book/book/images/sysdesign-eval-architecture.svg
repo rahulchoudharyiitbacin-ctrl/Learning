@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 340" font-family="Helvetica, Arial, sans-serif">
+  <defs><marker id="ar" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L12 6 L0 12 z" fill="#1d262d"/></marker>
+  <marker id="arb" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L12 6 L0 12 z" fill="#b8661a"/></marker></defs>
+  <g fill="#1d262d" text-anchor="middle">
+    <rect x="8" y="40" width="176" height="86" rx="10" fill="#eef1f2" stroke="#1d262d"/>
+    <text x="96" y="76" font-size="21" font-weight="700">Dataset</text><text x="96" y="104" font-size="18">dev, test, slices</text>
+    <rect x="212" y="40" width="176" height="86" rx="10" fill="#eef1f2" stroke="#1d262d"/>
+    <text x="300" y="76" font-size="21" font-weight="700">Run A and B</text><text x="300" y="104" font-size="18">k runs per case</text>
+    <rect x="416" y="40" width="176" height="86" rx="10" fill="#d3eeea" stroke="#13857a" stroke-width="2"/>
+    <text x="504" y="76" font-size="21" font-weight="700">Graders</text><text x="504" y="104" font-size="18">code, judge, human</text>
+    <rect x="416" y="200" width="176" height="86" rx="10" fill="#d3eeea" stroke="#13857a" stroke-width="2"/>
+    <text x="504" y="236" font-size="21" font-weight="700">Compare</text><text x="504" y="264" font-size="18">paired by case</text>
+    <rect x="212" y="200" width="176" height="86" rx="10" fill="#f6e4cf" stroke="#b8661a" stroke-width="2"/>
+    <text x="300" y="236" font-size="21" font-weight="700">Rollout</text><text x="300" y="264" font-size="18">shadow, canary, A/B</text>
+    <rect x="8" y="200" width="176" height="86" rx="10" fill="#f6e4cf" stroke="#b8661a" stroke-width="2"/>
+    <text x="96" y="236" font-size="21" font-weight="700">Monitor</text><text x="96" y="264" font-size="18">sample live traffic</text>
+  </g>
+  <g stroke="#1d262d" stroke-width="3" fill="none" marker-end="url(#ar)">
+    <path d="M186 83 H208"/><path d="M390 83 H412"/><path d="M504 128 V196"/><path d="M414 243 H392"/><path d="M210 243 H188"/>
+  </g>
+  <path d="M60 198 V130" stroke="#b8661a" stroke-width="3" fill="none" marker-end="url(#arb)"/>
+  <text x="70" y="172" font-size="18" fill="#b8661a">failures</text>
+  <text x="300" y="24" font-size="18" fill="#1d262d" text-anchor="middle">offline: paired by case</text>
+  <text x="300" y="322" font-size="18" fill="#1d262d" text-anchor="middle">online: randomised by user</text>
+</svg>

@@ -1,0 +1,92 @@
+# Chapter 10: run the prompt eval on every pull request.
+# Copy to .github/workflows/eval.yml in your repo.
+# Needs one repository secret: ANTHROPIC_API_KEY
+# (Settings > Secrets and variables > Actions).
+# The key never goes in a file in the repo.
+name: prompt-eval
+
+on:
+  pull_request:
+    paths:
+      - "work/promptfoo/**"
+      - "work/harness/prompts/**"
+      - "work/harness/data/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: prompt-eval-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: work/promptfoo
+    env:
+      PROMPTFOO_VERSION: "0.125.1"
+      PROMPTFOO_DISABLE_TELEMETRY: "1"
+      PROMPTFOO_DISABLE_UPDATE: "1"
+      # promptfoo does not expand "~" in this
+      # variable, so use an absolute path.
+      PROMPTFOO_CACHE_PATH: ${{ runner.temp }}/promptfoo-cache
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+
+      # Prompts and tests are built from the harness
+      # files. Fail if someone forgot to rebuild.
+      - name: Check promptfoo inputs are in sync
+        run: |
+          python3 build_from_harness.py
+          git diff --exit-code -- .
+
+      # Reuse model answers for unchanged prompts.
+      - uses: actions/cache@v6
+        with:
+          path: ${{ runner.temp }}/promptfoo-cache
+          key: pf-${{ hashFiles('work/promptfoo/**') }}
+          restore-keys: pf-
+
+      - name: Run eval (fails below the threshold)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PROMPTFOO_PASS_RATE_THRESHOLD: "90"
+        run: >
+          npx --yes promptfoo@${PROMPTFOO_VERSION} eval
+          -c promptfooconfig.yaml
+          --no-progress-bar --no-table
+          -o results.json -o report.html
+
+      # Errors (timeouts, 5xx) can hide under a pass
+      # rate threshold, so fail on any error too.
+      - name: Fail on errors
+        if: always()
+        run: |
+          test -f results.json || exit 1
+          ERRORS=$(jq '.results.stats.errors' results.json)
+          echo "errors: $ERRORS"
+          test "$ERRORS" -eq 0
+
+      - name: Paired per-case export (for Chapter 9)
+        if: always()
+        run: |
+          test -f results.json || exit 0
+          python3 export_pairs.py results.json \
+            --a A-v1 --b B-v2 --out pairs.csv
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: prompt-eval-results
+          path: |
+            work/promptfoo/results.json
+            work/promptfoo/report.html
+            work/promptfoo/pairs.csv
+          if-no-files-found: ignore

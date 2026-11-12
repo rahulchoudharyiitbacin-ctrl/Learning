@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" font-family="Helvetica, Arial, sans-serif">
+  <text x="440" y="20" font-size="16" text-anchor="middle" fill="#56616a">users who see B</text>
+  <g fill="#1d262d">
+    <rect x="8" y="30" width="272" height="56" rx="10" fill="#eef1f2" stroke="#c9d3d8"/><text x="20" y="55" font-size="20" font-weight="700">Offline eval</text><text x="20" y="77" font-size="16" fill="#56616a">fixed test set, nobody affected</text>
+    <rect x="8" y="98" width="272" height="56" rx="10" fill="#eef1f2" stroke="#c9d3d8"/><text x="20" y="123" font-size="20" font-weight="700">Shadow</text><text x="20" y="145" font-size="16" fill="#56616a">B runs silently, users see A</text>
+    <rect x="8" y="166" width="272" height="56" rx="10" fill="#f6e4cf" stroke="#b8661a"/><text x="20" y="191" font-size="20" font-weight="700">Canary</text><text x="20" y="213" font-size="16" fill="#56616a">1 to 5% see B, a day or two</text>
+    <rect x="8" y="234" width="272" height="56" rx="10" fill="#d3eeea" stroke="#13857a"/><text x="20" y="259" font-size="20" font-weight="700">A/B test</text><text x="20" y="281" font-size="16" fill="#56616a">50/50 by user, two weeks or more</text>
+    <rect x="8" y="302" width="272" height="56" rx="10" fill="#d3eeea" stroke="#0b5e56" stroke-width="2"/><text x="20" y="327" font-size="20" font-weight="700">Full rollout</text><text x="20" y="349" font-size="16" fill="#56616a">keep watching the guardrails</text>
+  </g>
+  <g stroke="#56616a" stroke-width="2" fill="none">
+    <rect x="300" y="48" width="280" height="20" rx="4"/><rect x="300" y="116" width="280" height="20" rx="4"/><rect x="300" y="184" width="280" height="20" rx="4"/><rect x="300" y="252" width="280" height="20" rx="4"/><rect x="300" y="320" width="280" height="20" rx="4"/>
+  </g>
+  <rect x="300" y="184" width="14" height="20" rx="3" fill="#b8661a"/>
+  <rect x="300" y="252" width="140" height="20" rx="3" fill="#13857a"/>
+  <rect x="300" y="320" width="280" height="20" rx="3" fill="#0b5e56"/>
+  <g font-size="16" fill="#56616a"><text x="300" y="82">0%</text><text x="300" y="150">0%</text><text x="322" y="218">about 5%</text><text x="300" y="286">50%</text><text x="300" y="354">100%</text></g>
+  <text x="300" y="388" font-size="17" fill="#8a2f28" text-anchor="middle">Every stage can roll back with a kill switch.</text>
+</svg>

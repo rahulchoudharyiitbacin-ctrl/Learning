@@ -1,0 +1,10 @@
+1) good change, threshold 90 (expect all 0):
+  sync-check=0  eval-exit=0  errors-check=0  ( ✓ 111 passed (92.50%))
+2) same, threshold 95 (expect eval-exit 100):
+  sync-check=0  eval-exit=100  errors-check=0  ( ✓ 111 passed (92.50%))
+3) broken prompt output (expect eval-exit 100):
+  sync-check=0  eval-exit=100  errors-check=0  ( 0 passed (0%))
+4) one case errors, threshold 80 (expect eval 0, errors-check 1):
+  sync-check=0  eval-exit=0  errors-check=1  ( ✓ 105 passed (87.50%))
+5) harness prompt edited, promptfoo files not rebuilt (expect sync-check 1):
+  sync-check=1  eval-exit=0  errors-check=0  ( ✓ 111 passed (92.50%))

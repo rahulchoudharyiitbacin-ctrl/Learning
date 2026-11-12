@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" font-family="Helvetica, Arial, sans-serif">
+  <rect x="5" y="5" width="590" height="82" rx="10" fill="#f6e4cf" stroke="#b8661a" stroke-width="2"/>
+  <text x="20" y="32" font-size="16" letter-spacing="2" fill="#8a4a0e">WHAT YOU VARY</text>
+  <g font-size="22" font-weight="700" text-anchor="middle">
+    <rect x="20" y="42" width="270" height="36" rx="6" fill="#ffffff" stroke="#b8661a"/><text x="155" y="68" fill="#8a4a0e">Prompt A</text>
+    <rect x="310" y="42" width="270" height="36" rx="6" fill="#ffffff" stroke="#b8661a"/><text x="445" y="68" fill="#8a4a0e">Prompt B</text>
+  </g>
+  <rect x="5" y="100" width="590" height="138" rx="10" fill="#eef1f2" stroke="#56616a" stroke-width="2"/>
+  <text x="20" y="127" font-size="16" letter-spacing="2" fill="#56616a">WHAT YOU LOCK</text>
+  <g font-size="20" fill="#1d262d" text-anchor="middle">
+    <rect x="20" y="138" width="180" height="40" rx="6" fill="#ffffff" stroke="#c9d3d8"/><text x="110" y="165">Model ID</text>
+    <rect x="210" y="138" width="180" height="40" rx="6" fill="#ffffff" stroke="#c9d3d8"/><text x="300" y="165">Settings</text>
+    <rect x="400" y="138" width="180" height="40" rx="6" fill="#ffffff" stroke="#c9d3d8"/><text x="490" y="165">Test set version</text>
+    <rect x="20" y="186" width="180" height="40" rx="6" fill="#ffffff" stroke="#c9d3d8"/><text x="110" y="213">Grader version</text>
+    <rect x="210" y="186" width="180" height="40" rx="6" fill="#ffffff" stroke="#c9d3d8"/><text x="300" y="213">Tools, context</text>
+    <rect x="400" y="186" width="180" height="40" rx="6" fill="#ffffff" stroke="#c9d3d8"/><text x="490" y="213">Runs per case</text>
+  </g>
+  <rect x="5" y="252" width="590" height="142" rx="10" fill="#d3eeea" stroke="#13857a" stroke-width="2"/>
+  <text x="20" y="279" font-size="16" letter-spacing="2" fill="#0b5e56">WHAT YOU RECORD</text>
+  <g font-size="20" fill="#1d262d" text-anchor="middle">
+    <rect x="20" y="290" width="270" height="40" rx="6" fill="#ffffff" stroke="#13857a"/><text x="155" y="317">Every raw output</text>
+    <rect x="310" y="290" width="270" height="40" rx="6" fill="#ffffff" stroke="#13857a"/><text x="445" y="317">Scores</text>
+    <rect x="20" y="340" width="270" height="40" rx="6" fill="#ffffff" stroke="#13857a"/><text x="155" y="367">Tokens and cost</text>
+    <rect x="310" y="340" width="270" height="40" rx="6" fill="#ffffff" stroke="#13857a"/><text x="445" y="367">Latency</text>
+  </g>
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 380" font-family="Helvetica, Arial, sans-serif">
+  <g fill="#1d262d" text-anchor="middle">
+    <rect x="8" y="8" width="186" height="364" rx="12" fill="#eef1f2" stroke="#c9d3d8"/>
+    <rect x="207" y="8" width="186" height="364" rx="12" fill="#eef1f2" stroke="#c9d3d8"/>
+    <rect x="406" y="8" width="186" height="364" rx="12" fill="#eef1f2" stroke="#c9d3d8"/>
+
+    <rect x="18" y="18" width="166" height="48" rx="8" fill="#d3eeea" stroke="#13857a" stroke-width="2"/><text x="101" y="51" font-size="24" font-weight="700">RAG</text>
+    <rect x="217" y="18" width="166" height="48" rx="8" fill="#f6e4cf" stroke="#b8661a" stroke-width="2"/><text x="300" y="51" font-size="24" font-weight="700">Agents</text>
+    <rect x="416" y="18" width="166" height="48" rx="8" fill="#d3eeea" stroke="#13857a" stroke-width="2"/><text x="499" y="51" font-size="24" font-weight="700">Multi-turn</text>
+
+    <text x="101" y="106" font-size="15" letter-spacing="2" fill="#56616a">SPLIT IT</text>
+    <text x="300" y="106" font-size="15" letter-spacing="2" fill="#56616a">SPLIT IT</text>
+    <text x="499" y="106" font-size="15" letter-spacing="2" fill="#56616a">SPLIT IT</text>
+    <text x="101" y="140" font-size="21">retrieval</text><text x="101" y="172" font-size="21">answer</text>
+    <text x="300" y="140" font-size="21">outcome</text><text x="300" y="172" font-size="21">steps</text>
+    <text x="499" y="140" font-size="21">whole chat</text><text x="499" y="172" font-size="21">one turn</text>
+
+    <line x1="30" y1="200" x2="172" y2="200" stroke="#c9d3d8" stroke-width="2"/><line x1="229" y1="200" x2="371" y2="200" stroke="#c9d3d8" stroke-width="2"/><line x1="428" y1="200" x2="570" y2="200" stroke="#c9d3d8" stroke-width="2"/>
+
+    <text x="101" y="236" font-size="15" letter-spacing="2" fill="#56616a">GRADE IT</text>
+    <text x="300" y="236" font-size="15" letter-spacing="2" fill="#56616a">GRADE IT</text>
+    <text x="499" y="236" font-size="15" letter-spacing="2" fill="#56616a">GRADE IT</text>
+    <text x="101" y="272" font-size="20">Recall@k, MRR</text><text x="101" y="304" font-size="20">faithful to</text><text x="101" y="332" font-size="20">the context?</text>
+    <text x="300" y="272" font-size="20">final state,</text><text x="300" y="304" font-size="20">not the words</text><text x="300" y="332" font-size="20">pass^k trials</text>
+    <text x="499" y="272" font-size="20">pass/fail first,</text><text x="499" y="304" font-size="20">then the first</text><text x="499" y="332" font-size="20">failure</text>
+  </g>
+</svg>

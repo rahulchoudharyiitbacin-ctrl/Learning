@@ -1,0 +1,285 @@
+<title>Prompt A/B Testing Notes</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: single study column, each idea = a figure + 2-3 lines, like flash-card pages */
+:root{
+  --bg:#f5f7f8; --panel:#ffffff; --ink:#15202b; --muted:#5b6b78; --line:#d9e1e6;
+  --a:#c7741c; --a-soft:#f6e4cf;   /* prompt A: current */
+  --b:#13857a; --b-soft:#d3eeea;   /* prompt B: challenger */
+  --warn:#b4372f; --warn-soft:#f7dcd9;
+  --display:"Space Grotesk",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f161b; --panel:#162028; --ink:#e4ebef; --muted:#93a4b0; --line:#2a3943;
+  --a:#e7994a; --a-soft:#3a2a18; --b:#3cc2b2; --b-soft:#123532; --warn:#ef7a70; --warn-soft:#3b1e1c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f161b; --panel:#162028; --ink:#e4ebef; --muted:#93a4b0; --line:#2a3943;
+  --a:#e7994a; --a-soft:#3a2a18; --b:#3cc2b2; --b-soft:#123532; --warn:#ef7a70; --warn-soft:#3b1e1c; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px 64px}
+main{max-width:860px;margin:0 auto;display:grid;gap:56px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(2rem,5vw,2.8rem);font-weight:700;letter-spacing:-.01em}
+h2{font-size:1.5rem;font-weight:700}
+h3{font-size:1.05rem;font-weight:500}
+p{margin:0;max-width:65ch}
+.lede{color:var(--muted);font-size:1.1rem}
+.label{font:500 .72rem/1 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+section{display:grid;gap:18px}
+.tag{font:500 .8rem var(--mono);padding:2px 8px;border-radius:4px}
+.tA{background:var(--a-soft);color:var(--a)} .tB{background:var(--b-soft);color:var(--b)}
+.rule{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px 22px;display:grid;gap:10px}
+.rule strong{font-family:var(--display);font-size:1.2rem}
+.fixed{display:flex;flex-wrap:wrap;gap:8px}
+.fixed span{font:400 .82rem var(--mono);border:1px dashed var(--line);border-radius:4px;padding:2px 8px;color:var(--muted)}
+/* pipeline */
+.pipe{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;counter-reset:s}
+.stage{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:8px;align-content:start;position:relative}
+.stage .label{color:var(--b)}
+.stage ul{margin:0;padding-left:18px;font-size:.92rem;color:var(--muted)}
+.traffic{height:8px;border-radius:4px;background:var(--a-soft);overflow:hidden}
+.traffic i{display:block;height:100%;background:var(--b)}
+@media (max-width:640px){.pipe{grid-template-columns:1fr}}
+/* figures */
+figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;gap:12px}
+figcaption{font-size:.9rem;color:var(--muted)}
+.svgwrap{overflow-x:auto}
+svg text{font-family:var(--mono);font-size:12px;fill:var(--muted)}
+svg .ink{fill:var(--ink)}
+.verdict{border-left:4px solid var(--warn);background:var(--warn-soft);padding:12px 16px;border-radius:0 8px 8px 0}
+.verdict b{color:var(--warn)}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:640px){.two{grid-template-columns:1fr}}
+/* mcnemar grid */
+.mc{display:grid;grid-template-columns:auto 1fr 1fr;gap:6px;font-size:.9rem;align-items:stretch}
+.mc div{padding:10px;border-radius:6px;text-align:center}
+.mc .h{color:var(--muted);font:500 .75rem var(--mono);background:none;align-self:center}
+.mc .skip{background:var(--bg);color:var(--muted);border:1px dashed var(--line)}
+.mc .win{font:500 1.3rem var(--display)}
+.mc .wb{background:var(--b-soft);color:var(--b)} .mc .wa{background:var(--a-soft);color:var(--a)}
+/* bias cards */
+.bias{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:640px){.bias{grid-template-columns:1fr}}
+.bias div{border-top:3px solid var(--warn);background:var(--panel);border-radius:0 0 8px 8px;padding:14px;display:grid;gap:6px;font-size:.92rem}
+.bias em{font-style:normal;color:var(--b);font-weight:500}
+/* tables & lists */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 .72rem var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.mist{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.mist li{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start}
+.mist li::before{content:"✕";color:var(--warn);font-weight:600}
+blockquote{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px 22px;font-size:1rem;display:grid;gap:12px}
+.qs{color:var(--muted);font-size:.92rem}
+a{color:var(--b)}
+code{font-family:var(--mono);font-size:.88em}
+.stat{font:500 1.4rem var(--display)}
+</style>
+
+<main>
+<header style="display:grid;gap:14px">
+  <span class="label">AI engineering · study notes</span>
+  <h1>A/B testing prompts</h1>
+  <p class="lede">How to tell whether a new prompt is really better, or just got lucky on this run.</p>
+</header>
+
+<section>
+  <div class="rule">
+    <span class="label">The one rule</span>
+    <strong>Change one thing. Hold everything else fixed. Use the same inputs. Ship only if the gap beats the noise.</strong>
+    <div class="fixed"><span>model snapshot</span><span>temperature</span><span>tools</span><span>context / RAG</span><span>golden set</span><span>grader</span></div>
+    <p class="qs">Only the prompt differs: <span class="tag tA">A = current</span> vs <span class="tag tB">B = challenger</span></p>
+  </div>
+</section>
+
+<section>
+  <h2>The three stages</h2>
+  <p>Most prompt A/B testing is the offline stage. You go online only when the prompt affects a business metric.</p>
+  <div class="pipe">
+    <div class="stage">
+      <span class="label">Stage 1 · Offline</span>
+      <h3>Eval on a golden set</h3>
+      <div class="traffic" title="0% live users"><i style="width:0"></i></div>
+      <ul><li>100–1000 real, labelled cases</li><li>3–5 runs per case</li><li>Paired stats + read the diffs</li></ul>
+    </div>
+    <div class="stage">
+      <span class="label">Stage 2 · Shadow / canary</span>
+      <h3>Real traffic, low risk</h3>
+      <div class="traffic" title="1-5% live users"><i style="width:5%"></i></div>
+      <ul><li>Shadow: B runs, users still see A</li><li>Canary: B serves 1–5%</li><li>Watch latency, cost, errors</li></ul>
+    </div>
+    <div class="stage">
+      <span class="label">Stage 3 · Online A/B</span>
+      <h3>50/50 split by user</h3>
+      <div class="traffic" title="50% live users"><i style="width:50%"></i></div>
+      <ul><li>Feature flag assigns variant</li><li>1 primary metric + guardrails</li><li>Fix duration up front; no peeking</li></ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Grade cheapest-first</h2>
+  <div class="tbl"><table>
+    <tr><th>Grader</th><th>Use for</th><th>Cost</th></tr>
+    <tr><td>Code checks</td><td>Exact label, regex, JSON schema, "contains order ID"</td><td>Free, deterministic</td></tr>
+    <tr><td>LLM-as-judge + rubric</td><td>Tone, helpfulness, faithfulness to the source</td><td>Cheap, biased (see below)</td></tr>
+    <tr><td>Humans</td><td>Final call on subjective tasks; calibrating the judge</td><td>Slow, expensive</td></tr>
+  </table></div>
+  <h3>LLM judges have three known biases</h3>
+  <div class="bias">
+    <div><b>Position</b><span>Prefers whichever answer is shown first.</span><em>Fix: run both orders, keep only consistent verdicts.</em></div>
+    <div><b>Verbosity</b><span>Prefers longer answers even when worse.</span><em>Fix: rubric scoring, not "which is better?"</em></div>
+    <div><b>Self-preference</b><span>Prefers outputs from its own model family.</span><em>Fix: judge with a different model; check against 50–100 human labels.</em></div>
+  </div>
+</section>
+
+<section>
+  <h2>The demo: B looks better. Is it?</h2>
+  <p>Simulated support-ticket classifier, 400 cases, 3 runs each. <span class="tag tA">A 70.9%</span> <span class="tag tB">B 73.9%</span> → B is +3.0 points.</p>
+
+  <figure>
+    <span class="label">95% confidence interval for B − A (points)</span>
+    <div class="svgwrap">
+    <svg viewBox="0 0 600 190" width="100%" style="min-width:480px" role="img" aria-label="Confidence intervals: unpaired -1.4 to 7.4, paired -0.2 to 6.2, bootstrap -0.3 to 6.1; all cross zero">
+      <!-- x(v)=40+(v+4)*520/12 -->
+      <g stroke="var(--line)" stroke-width="1">
+        <line x1="40" y1="20" x2="40" y2="150"/><line x1="126.7" y1="20" x2="126.7" y2="150"/>
+        <line x1="300" y1="20" x2="300" y2="150"/><line x1="386.7" y1="20" x2="386.7" y2="150"/>
+        <line x1="473.3" y1="20" x2="473.3" y2="150"/><line x1="560" y1="20" x2="560" y2="150"/>
+      </g>
+      <line x1="213.3" y1="14" x2="213.3" y2="150" stroke="var(--warn)" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="213.3" y="10" text-anchor="middle" style="fill:var(--warn)">0 = no difference</text>
+      <g font-size="12">
+        <text x="40" y="168" text-anchor="middle">−4</text><text x="126.7" y="168" text-anchor="middle">−2</text>
+        <text x="213.3" y="168" text-anchor="middle">0</text><text x="300" y="168" text-anchor="middle">+2</text>
+        <text x="386.7" y="168" text-anchor="middle">+4</text><text x="473.3" y="168" text-anchor="middle">+6</text>
+        <text x="560" y="168" text-anchor="middle">+8</text>
+      </g>
+      <!-- B-A = 3.0 at x=343.3 -->
+      <g>
+        <text x="40" y="44" class="ink">Unpaired (wrong)</text>
+        <line x1="115.3" y1="56" x2="525.3" y2="56" stroke="var(--muted)" stroke-width="6" stroke-linecap="round" opacity=".55"/>
+        <circle cx="343.3" cy="56" r="6" fill="var(--ink)"/>
+        <text x="40" y="84" class="ink">Paired</text>
+        <line x1="207.5" y1="96" x2="490.7" y2="96" stroke="var(--b)" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="343.3" cy="96" r="6" fill="var(--ink)"/>
+        <text x="40" y="124" class="ink">Paired bootstrap</text>
+        <line x1="200.3" y1="136" x2="487.8" y2="136" stroke="var(--b)" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="343.3" cy="136" r="6" fill="var(--ink)"/>
+      </g>
+    </svg>
+    </div>
+    <figcaption>Pairing (same cases for A and B) narrows the interval from ±4.4 to ±3.2 points, because easy cases are easy for both prompts. All three intervals still cross zero.</figcaption>
+  </figure>
+
+  <div class="two">
+    <figure>
+      <span class="label">McNemar: only disagreements count</span>
+      <div class="mc">
+        <div class="h"></div><div class="h">A pass</div><div class="h">A fail</div>
+        <div class="h">B pass</div><div class="skip">both pass<br>ignored</div><div class="wb"><span class="win">66</span><br>B-only wins</div>
+        <div class="h">B fail</div><div class="wa"><span class="win">60</span><br>A-only wins</div><div class="skip">both fail<br>ignored</div>
+      </div>
+      <figcaption>66 vs 60 is almost a coin flip: p = 0.66.</figcaption>
+    </figure>
+    <figure>
+      <span class="label">Noise: prompt A, same data, 3 runs</span>
+      <svg viewBox="0 0 300 130" width="100%" role="img" aria-label="Prompt A accuracy across runs: 74.3, 69.0, 69.5 percent">
+        <!-- y(v)=110-(v-66)*10 ; 66..76 -->
+        <line x1="40" y1="110" x2="290" y2="110" stroke="var(--line)"/>
+        <line x1="40" y1="10" x2="40" y2="110" stroke="var(--line)"/>
+        <text x="34" y="114" text-anchor="end">66%</text><text x="34" y="64" text-anchor="end">71%</text><text x="34" y="14" text-anchor="end">76%</text>
+        <rect x="70" y="27" width="40" height="83" fill="var(--a)" rx="3"/>
+        <rect x="145" y="80" width="40" height="30" fill="var(--a)" rx="3"/>
+        <rect x="220" y="75" width="40" height="35" fill="var(--a)" rx="3"/>
+        <text x="90" y="21" text-anchor="middle" class="ink">74.3</text>
+        <text x="165" y="74" text-anchor="middle" class="ink">69.0</text>
+        <text x="240" y="69" text-anchor="middle" class="ink">69.5</text>
+        <text x="90" y="126" text-anchor="middle">run 1</text><text x="165" y="126" text-anchor="middle">run 2</text><text x="240" y="126" text-anchor="middle">run 3</text>
+      </svg>
+      <figcaption>A 5-point swing from randomness alone, bigger than B's "gain". This is why you do multiple runs.</figcaption>
+    </figure>
+  </div>
+
+  <div class="verdict"><b>Verdict: not proven.</b> A junior ships B. A professional says: "Promising. I need about 500 cases, or a bigger effect."</div>
+</section>
+
+<section>
+  <h2>How many test cases do you need?</h2>
+  <figure>
+    <span class="label">Cases needed (paired, α = 0.05, power = 0.8)</span>
+    <div class="svgwrap">
+    <svg viewBox="0 0 600 150" width="100%" style="min-width:440px" role="img" aria-label="Detect 8 point gain: 132 cases; 4 points: 526; 2 points: 2103">
+      <!-- x(n)=110+n*440/2103 -->
+      <text x="100" y="34" text-anchor="end" class="ink">+8 pts</text>
+      <rect x="110" y="20" width="27.6" height="20" rx="3" fill="var(--b)"/><text x="145" y="34">132</text>
+      <text x="100" y="74" text-anchor="end" class="ink">+4 pts</text>
+      <rect x="110" y="60" width="110" height="20" rx="3" fill="var(--b)"/><text x="228" y="74">526</text>
+      <text x="100" y="114" text-anchor="end" class="ink">+2 pts</text>
+      <rect x="110" y="100" width="440" height="20" rx="3" fill="var(--b)"/><text x="544" y="114" text-anchor="end" style="fill:var(--bg)">2,103</text>
+      <line x1="193.7" y1="10" x2="193.7" y2="132" stroke="var(--a)" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="198" y="144" style="fill:var(--a)">our eval set: 400</text>
+    </svg>
+    </div>
+    <figcaption>Rule of thumb: n ≈ ((1.96 + 0.84) × sd_diff / effect)². Halving the effect you want to detect quadruples the cases you need.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>Online A/B checklist</h2>
+  <div class="tbl"><table>
+    <tr><th>Do</th><th>Why</th></tr>
+    <tr><td>Randomise by user, not request</td><td>One person shouldn't see both prompts</td></tr>
+    <tr><td>One primary metric (task success, thumbs-up, conversion)</td><td>5 metrics at α = 0.05 → ~23% chance of a false win</td></tr>
+    <tr><td>Guardrails: p95 latency, cost/request, error & refusal rate</td><td>B can win quality and still be unshippable</td></tr>
+    <tr><td>Fix sample size and duration up front</td><td>Stopping when it "looks good" inflates false positives</td></tr>
+    <tr><td>Log prompt version + model version per request</td><td>Debugging, and growing the golden set from real traffic</td></tr>
+  </table></div>
+</section>
+
+<section>
+  <h2>Tools (Nov 2026)</h2>
+  <div class="tbl"><table>
+    <tr><th>Stage</th><th>Tool</th><th>Role</th></tr>
+    <tr><td>Offline</td><td>promptfoo</td><td>Open-source CLI; prompt variants × test cases side by side; runs in CI</td></tr>
+    <tr><td>Offline + online</td><td>LangSmith · Langfuse · Braintrust</td><td>Datasets, experiments, pairwise judging, scoring of live traces</td></tr>
+    <tr><td>Offline</td><td>Anthropic Console Evaluate</td><td>Prompt versions side by side on test cases</td></tr>
+    <tr><td>Online</td><td>GrowthBook · LaunchDarkly · Statsig</td><td>Feature flags, traffic split, rollout and rollback</td></tr>
+    <tr><td>Avoid</td><td>OpenAI Evals</td><td>Read-only since 31 Oct 2026, shuts down 30 Nov 2026</td></tr>
+  </table></div>
+</section>
+
+<section>
+  <h2>Mistakes that give away a beginner</h2>
+  <ul class="mist">
+    <li>Eyeballing 10–20 hand-picked examples</li>
+    <li>Changing the prompt and the model at the same time</li>
+    <li>One run per case at temperature &gt; 0</li>
+    <li>Tuning and evaluating on the same examples</li>
+    <li>Reporting only the average and hiding the slice where B got worse</li>
+    <li>Trusting an LLM judge you never checked against humans</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Your interview answer</h2>
+  <blockquote>
+    <p>"I treated prompts like code: versioned in git and evaluated against a golden set of real cases. For each change I ran an offline A/B with the model and temperature pinned and 3 samples per case. Grading used deterministic checks plus a rubric-based LLM judge that I calibrated against human labels. I compared variants with a paired bootstrap CI and only promoted a prompt if it beat the baseline outside the noise without regressing cost or latency. Winners went to a canary behind a feature flag."</p>
+    <div class="qs"><span class="label">Expect these follow-ups</span><br>How big was the eval set? · How did you know the judge was right? · What effect size could you detect? · What happened when B won on average but lost on a slice?</div>
+  </blockquote>
+</section>
+
+<footer class="qs" style="display:grid;gap:6px">
+  <span class="label">Sources</span>
+  <span>Zheng et al. 2023, <a href="https://arxiv.org/abs/2306.05685">Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena</a></span>
+  <span>Miller (Anthropic) 2024, <a href="https://www.anthropic.com/research/statistical-approach-to-model-evals">A statistical approach to model evaluations</a></span>
+  <span><a href="https://developers.openai.com/api/docs/deprecations">OpenAI deprecations</a> · <a href="https://www.growthbook.io/insights/ab-testing-llms">GrowthBook on A/B testing LLMs</a></span>
+  <span>Demo numbers come from simulated data (<code>work/ab-prompt-test/demo.py</code>).</span>
+</footer>
+</main>

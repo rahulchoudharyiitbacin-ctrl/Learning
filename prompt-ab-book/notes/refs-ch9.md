@@ -1,0 +1,20 @@
+# Sources for Chapter 9 (did-it-improve.md), verified 2026-11-13
+
+| Source | URL | What the page says (checked) | Used for |
+|---|---|---|---|
+| Miller 2024, *Adding Error Bars to Evals: A Statistical Approach to Language Model Evaluations* (arXiv 2411.00640, v1 1 Nov 2024) | https://arxiv.org/abs/2411.00640 ; body read at https://arxiv.org/html/2411.00640 | Sections: 2.2 Clustered questions ("Here we show how to use clustered standard errors"); 3.1 Resampling (average K resamples per question; more K has little effect once within-question variance is small; the variance of the conditional mean is "a property of the super-population and therefore immutable"); 4.2 Paired analysis ("We therefore recommend using the paired version of the standard error estimate wherever practicable"); 5 Power analysis (sample-size formula, Appendix B/C). Bootstrap: "we regard bootstrapping as unnecessary unless a complicated sampling scheme or estimator is being used." McNemar not mentioned. | Clustering, paired SE, runs vs cases, power analysis, bootstrap as cross-check only |
+| Anthropic, *A statistical approach to model evaluations* (19 Nov 2024) | https://www.anthropic.com/research/statistical-approach-to-model-evals | Five recommendations: CLT/SEM; cluster standard errors ("over three times as large as naive standard errors" in their experience on popular evals); resample and average per question; paired differences (question-score correlations 0.3 to 0.7 for frontier models; report mean difference, SE, CI, correlation); power analysis. | The quoted "over three times" figure; reporting checklist |
+| Statsig, *A/B testing for LLMs: When statistical significance misleads* (31 Oct 2025, vendor) | https://statsig.com/perspectives/abtesting-llms-misleading | Peeking inflates false positives; "Fix the goal, primary metric, and stop rule before launch"; use sequential rules / alpha spending if peeking is unavoidable; demand effect sizes and intervals; "Significance is a tool, not a trophy." Does NOT discuss multiple-comparison corrections. | Peeking page (paraphrased), practical significance (paraphrased) |
+| statsmodels `mcnemar` docs | https://www.statsmodels.org/stable/generated/statsmodels.stats.contingency_tables.mcnemar.html | exact=True uses the binomial distribution; statistic is min(n1, n2) of the discordant counts. | McNemar uses discordant pairs only; Read more |
+| Wikipedia, Holm-Bonferroni method (secondary) | https://en.wikipedia.org/wiki/Holm%E2%80%93Bonferroni_method | Step-down procedure alpha/m, alpha/(m-1), ...; controls FWER; uniformly more powerful than Bonferroni; original: Holm (1979), Scand. J. Statistics 6(2):65-70. | Holm in plain words |
+| Kohavi, Tang, Xu (2020) Ch 17 | (title confirmed in notes/references.md) | "The Statistics behind Online Controlled Experiments" (title only). | Read more, no topic claims |
+
+## Numbers in the chapter and where they come from
+
+- Demo numbers (A 0.709, B 0.739, +3.0, run-0 McNemar 66 vs 60 p 0.6562, A per run 0.743/0.69/0.695): work/ab-prompt-test/output.txt. Reproduced exactly by exporting demo.py's draws (same seed 7) to harness records and running compare_runs.py: paired t CI [-0.0022, +0.0622], case bootstrap [-0.0017, +0.0617], unpaired [-0.0142, +0.0742], naive rows [-0.0011, +0.0611] (SE ratio 1.03), majority McNemar 45 vs 42 p 0.83, SD of per-case d 0.3273. Export script: scratchpad export_demo.py (not in repo; code shown in the worker report).
+- True simulated gain on those 400 cases: mean(pB - pA) = 0.0366. Power for a true +3.0 gain at n=400, SE 0.0164: 0.45.
+- 1 run vs 3 runs half-width in the demo: +-0.055 vs +-0.032.
+- Coverage (test_stats.py, 1,000 sims, 100 cases x 3 runs): heterogeneous t 0.943, bootstrap 0.937, naive 0.802; mild t 0.944, bootstrap 0.940, naive 0.946.
+- Power at formula n (2,000 sims): z-test 0.800-0.819; exact McNemar 0.769-0.782. Null false-positive: z 0.041, exact 0.032.
+- Peeking (4,000 sims, discordance 30%, no effect): one look 0.037, eight looks 0.130.
+- Sample sizes: sample_size.py (--table; --sd 0.3273 gives 337 / 935 / 2103 for +5 / +3 / +2).

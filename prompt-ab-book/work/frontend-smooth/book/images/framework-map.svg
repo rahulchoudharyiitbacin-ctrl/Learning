@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 390" font-family="Helvetica, Arial, sans-serif">
+<rect x="4" y="58" width="592" height="138" rx="10" fill="#eef1f2" stroke="#c9d3d8"/>
+<rect x="4" y="204" width="592" height="138" rx="10" fill="#f6e4cf" stroke="#b8661a"/>
+<g font-size="18" font-weight="700" fill="#1d262d" text-anchor="middle">
+<text x="213" y="40">Dataset</text>
+<text x="299" y="40">Run</text>
+<text x="385" y="40">Score</text>
+<text x="471" y="40">Compare</text>
+<text x="557" y="40">Monitor</text>
+</g>
+<path d="M175 48 H590" stroke="#56616a" stroke-width="2"/>
+<g font-size="18" fill="#1d262d">
+<text x="16" y="93">Your harness</text>
+<rect x="179" y="74" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="265" y="74" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="351" y="74" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="437" y="74" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="523" y="74" width="68" height="28" rx="6" fill="#ffffff" stroke="#c9d3d8" stroke-dasharray="4 3"/>
+<text x="16" y="137">promptfoo</text>
+<rect x="179" y="118" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="265" y="118" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="351" y="118" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="437" y="118" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="523" y="118" width="68" height="28" rx="6" fill="#ffffff" stroke="#c9d3d8" stroke-dasharray="4 3"/>
+<text x="16" y="181">Claude Console</text>
+<rect x="179" y="162" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="265" y="162" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="351" y="162" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="437" y="162" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="523" y="162" width="68" height="28" rx="6" fill="#ffffff" stroke="#c9d3d8" stroke-dasharray="4 3"/>
+<text x="16" y="233">LangSmith</text>
+<rect x="179" y="214" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="265" y="214" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="351" y="214" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="437" y="214" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="523" y="214" width="68" height="28" rx="6" fill="#13857a"/>
+<text x="16" y="277">Langfuse</text>
+<rect x="179" y="258" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="265" y="258" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="351" y="258" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="437" y="258" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="523" y="258" width="68" height="28" rx="6" fill="#13857a"/>
+<text x="16" y="321">Braintrust</text>
+<rect x="179" y="302" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="265" y="302" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="351" y="302" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="437" y="302" width="68" height="28" rx="6" fill="#13857a"/>
+<rect x="523" y="302" width="68" height="28" rx="6" fill="#13857a"/>
+</g>
+<g font-size="18" fill="#1d262d">
+<rect x="16" y="356" width="26" height="20" rx="4" fill="#13857a"/><text x="50" y="372">in the docs we checked</text>
+<rect x="296" y="356" width="26" height="20" rx="4" fill="#ffffff" stroke="#c9d3d8" stroke-dasharray="4 3"/><text x="330" y="372">not covered or not checked</text>
+</g></svg>

@@ -1,0 +1,21 @@
+__description,message,expected
+t01,"I was charged twice for the same order, please fix this.",refund
+t02,My order is 50 minutes late and nobody is answering.,delivery
+t03,I forgot my password and the reset email never comes.,account
+t04,Do you have a vegan menu?,other
+t05,"The food arrived cold, I want my money back.",refund
+t06,Where is my driver? The map has not moved for 20 minutes.,delivery
+t07,Please delete my account and all my data.,account
+t08,Can I change the delivery address for my current order?,delivery
+t09,Your app crashed during payment and I was charged.,refund
+t10,How do I update my phone number?,account
+t11,"Great service last night, thanks!",other
+t12,The restaurant gave me the wrong items. I need a refund.,refund
+t13,My order says delivered but I never received it.,delivery
+t14,Why was my promo code rejected?,other
+t15,I can't log in with my new email address.,account
+t16,Is there a way to tip the driver after delivery?,other
+t17,I'd like to be reimbursed for the missing dessert.,refund
+t18,The driver went to the wrong building.,delivery
+t19,Can you recommend a good Italian place nearby?,other
+t20,"My account shows an order I never placed, and I was billed for it.",account

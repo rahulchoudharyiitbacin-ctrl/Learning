@@ -1,0 +1,41 @@
+# Chapter 10: the Chapter 4 experiment in promptfoo.
+# Same prompts, same 20 cases, same grader idea
+# (exact match after trim + lowercase), 3 runs each.
+# Regenerate prompts/ and tests.csv with:
+#   python build_from_harness.py
+description: ticket-triage v1 vs v2
+
+prompts:
+  - id: file://prompts/triage-v1.json
+    label: A-v1
+  - id: file://prompts/triage-v2.json
+    label: B-v2
+
+providers:
+  - id: anthropic:messages:claude-haiku-5-5
+    label: haiku
+    config:
+      max_tokens: 1024
+      effort: low
+      # No temperature: current Claude models
+      # do not accept it. Tested with promptfoo
+      # 0.125.1: on api.anthropic.com it sends
+      # none; through a custom base URL (proxy,
+      # ANTHROPIC_BASE_URL) it added
+      # temperature: 0. Check before trusting.
+
+# Columns: __description (case id), message, expected
+tests: file://tests.csv
+
+defaultTest:
+  assert:
+    # Same idea as the harness's exact_match grader.
+    - type: javascript
+      metric: accuracy
+      value: >-
+        output.trim().toLowerCase() ===
+        context.vars.expected.toLowerCase()
+
+evaluateOptions:
+  repeat: 3          # runs_per_case in the harness
+  maxConcurrency: 4  # workers in the harness

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 310" font-family="Helvetica, Arial, sans-serif">
+  <text x="300" y="30" text-anchor="middle" font-size="22" font-weight="700" fill="#1d262d">A prompt produces a spread of outputs</text>
+  <path d="M100 235 C165 235 185 70 235 70 C285 70 305 235 370 235 Z" fill="#b8661a" fill-opacity="0.35" stroke="#b8661a" stroke-width="3"/>
+  <path d="M230 235 C295 235 315 70 365 70 C415 70 435 235 500 235 Z" fill="#13857a" fill-opacity="0.35" stroke="#13857a" stroke-width="3"/>
+  <line x1="60" y1="235" x2="540" y2="235" stroke="#56616a" stroke-width="3"/>
+  <text x="130" y="110" font-size="22" font-weight="700" fill="#8a4a0e" text-anchor="middle">A</text>
+  <text x="470" y="110" font-size="22" font-weight="700" fill="#0b5e56" text-anchor="middle">B</text>
+  <text x="300" y="205" font-size="19" fill="#1d262d" text-anchor="middle">overlap</text>
+  <text x="300" y="266" font-size="19" fill="#56616a" text-anchor="middle">output quality, lower to higher</text>
+  <text x="300" y="296" font-size="16" fill="#56616a" text-anchor="middle">Illustration of the idea, not real data</text>
+</svg>

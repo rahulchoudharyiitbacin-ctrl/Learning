@@ -1,0 +1,10 @@
+Accuracy  A=0.709  B=0.739  diff=+0.030
+
+Unpaired 95% CI: +0.030 ± 0.044
+Paired   95% CI: +0.030 ± 0.032   (corr(A,B) per case = 0.47)
+Paired bootstrap 95% CI: [-0.003, +0.061]
+McNemar (run 1): B-only wins=66, A-only wins=60, p=0.6562
+Prompt A accuracy per run: [0.743, 0.69, 0.695]  <- noise you must beat
+Cases needed to detect a 2% gain: ~2103
+Cases needed to detect a 4% gain: ~526
+Cases needed to detect a 8% gain: ~132

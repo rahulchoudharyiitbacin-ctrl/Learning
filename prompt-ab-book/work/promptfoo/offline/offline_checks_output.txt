@@ -1,0 +1,19 @@
+== A. config + assertions with the offline stand-in model
+exit=100 (100 = some test failed)
+  ✓ 111 passed (92.50%)
+  ✗ 9 failed (7.50%)
+A-v1: accuracy 0.900
+B-v2: accuracy 0.950
+paired cases: 20  B wins 1, loses 0, ties 19
+mean diff (B - A): +0.050
+errors skipped: 0   wrote pairs.csv
+== B. real Anthropic provider code against a fake LOCAL server: caching
+run 1: requests so far      120
+run 2 (cache): requests so far      120
+run 3 (--no-cache): requests so far      240
+sent keys: ['max_tokens', 'messages', 'model', 'output_config', 'stream', 'system', 'temperature']
+== C. request the real endpoint WOULD get (network disabled, call stubbed)
+baseURL: https://api.anthropic.com | output: refund 
+  sent: {"model":"claude-haiku-5-5","max_tokens":1024,"stream":false,"output_config":{"effort":"low"}}
+baseURL: http://127.0.0.1:9 | output: refund 
+  sent: {"model":"claude-haiku-5-5","max_tokens":1024,"stream":false,"temperature":0,"output_config":{"effort":"low"}}

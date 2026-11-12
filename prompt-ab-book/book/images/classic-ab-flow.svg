@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 370" font-family="Helvetica, Arial, sans-serif">
+  <defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#56616a"/></marker></defs>
+  <g font-size="22" fill="#1d262d" text-anchor="middle">
+    <rect x="190" y="8" width="220" height="48" rx="10" fill="#eef1f2" stroke="#c9d3d8"/><text x="300" y="40">All users</text>
+    <rect x="190" y="88" width="220" height="48" rx="10" fill="#ffffff" stroke="#56616a" stroke-width="2"/><text x="300" y="120">Random split</text>
+    <rect x="10" y="176" width="280" height="62" rx="10" fill="#f6e4cf" stroke="#b8661a" stroke-width="2"/><text x="150" y="203" font-weight="700" fill="#8a4a0e">A: control</text><text x="150" y="228" font-size="18">current version</text>
+    <rect x="310" y="176" width="280" height="62" rx="10" fill="#d3eeea" stroke="#13857a" stroke-width="2"/><text x="450" y="203" font-weight="700" fill="#0b5e56">B: treatment</text><text x="450" y="228" font-size="18">the one change</text>
+    <rect x="10" y="268" width="280" height="40" rx="8" fill="#ffffff" stroke="#b8661a"/><text x="150" y="296">Measure metric</text>
+    <rect x="310" y="268" width="280" height="40" rx="8" fill="#ffffff" stroke="#13857a"/><text x="450" y="296">Measure metric</text>
+    <rect x="10" y="326" width="580" height="38" rx="8" fill="#eef1f2" stroke="#c9d3d8"/><text x="300" y="352" font-size="20">Compare: difference, plus how sure we are</text>
+  </g>
+  <path d="M300 58 V84 M250 138 L170 172 M350 138 L430 172 M150 240 V264 M450 240 V264 M150 310 V322 M450 310 V322" stroke="#56616a" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+</svg>

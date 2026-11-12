@@ -1,0 +1,4 @@
+{
+  "A": "Classify the customer message as refund, delivery, account or other. Reply with the label only.\n\nMessage:\n{input}",
+  "B": "You sort support messages. Labels: refund, delivery, account, other.\nAnswer with one lowercase label and nothing else.\n\nMessage:\n{input}"
+}

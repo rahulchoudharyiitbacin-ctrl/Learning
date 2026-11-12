@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Testing Prompts Like a Pro</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<style>
+/* Layout: a hardback on a desk. Two-page spread on wide screens, one page on phones.
+   Pages are physical paper, so paper tokens stay light in both themes; only the desk changes. */
+:root{
+  --desk:#d5dde1; --desk-ink:#22303a; --desk-muted:#5a6a75; --desk-line:#b9c5cc;
+  --paper:#fbfaf6; --paper-edge:#e7e3d8; --ink:#1d262d; --ink-soft:#56616a; --rule:#dcd8cc;
+  --cloth:#1f4f4b; --cloth-dark:#163b38; --foil:#e9d9a8;
+  --a:#b8661a; --b:#13857a; --note:#fbefc3; --note-edge:#e6cf7d;
+  --serif:"Literata",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --desk:#121a1f; --desk-ink:#dfe7ec; --desk-muted:#8d9ea9; --desk-line:#2b3a44;
+  --paper:#ecE8de; --paper-edge:#cfc9ba; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --desk:#121a1f; --desk-ink:#dfe7ec; --desk-muted:#8d9ea9; --desk-line:#2b3a44;
+  --paper:#ece8de; --paper-edge:#cfc9ba; color-scheme:dark}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--desk);color:var(--desk-ink);font-family:var(--serif);margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 18px;
+  display:flex;flex-direction:column;align-items:center;gap:14px;overflow-x:hidden}
+.topbar{width:100%;max-width:1120px;display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.topbar b{font-weight:700;font-size:1.05rem}
+.where{font:500 .78rem var(--mono);color:var(--desk-muted);letter-spacing:.04em}
+
+.stage{width:100%;display:flex;flex:none}
+.stage .book{margin-inline:auto;flex:none} /* margin:auto centres without clipping the left edge when zoomed */
+/* --zoom: hook for a future zoom control (1 = current size). */
+.book{--zoom:1;position:relative;perspective:calc(4000px * var(--zoom));/* flatter perspective: a turning page swells less, so it stays inside the window */
+  width:calc(min(1120px,100%,calc((100svh - 150px) * 1.42)) * var(--zoom));aspect-ratio:1.42;
+  transition:transform .7s cubic-bezier(.4,0,.2,1)}
+.book.at-start{transform:translateX(-25%)}
+.book.at-end{transform:translateX(25%)}
+.leaf{position:absolute;top:0;left:50%;width:50%;height:100%;
+  transform-origin:left center;transform-style:preserve-3d;
+  transition:transform .95s cubic-bezier(.645,.045,.355,1);cursor:pointer}
+.leaf.flipped{transform:rotateY(-180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;container-type:inline-size;overflow:hidden}
+.face.front{transform:rotateY(0deg)} /* explicit 3D transform so WebKit honours backface-visibility */
+.face.back{transform:rotateY(180deg)}
+/* Only the few leaves kept in the DOM (current +/- 3) are pre-promoted to GPU layers. */
+.leaf.live{will-change:transform}
+/* First paint / mode switch: place everything without animating. */
+.book.no-anim,.book.no-anim .leaf{transition:none!important}
+
+/* narrow: single page */
+.book.single{width:calc(min(100%,calc((100svh - 150px) * .6)) * var(--zoom));aspect-ratio:.6}
+.book.single .leaf{left:0;width:100%}
+.stage.single{overflow-x:clip;overflow-y:visible;padding-block:24px} /* clip sideways only: a turning page swells toward the viewer and must not be cut off top/bottom */
+.stage.zoomed .book.at-start,.stage.zoomed .book.at-end{transform:none} /* a scroll box would clip the sliding book */
+.stage.zoomed{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain} /* scrolls sideways; JS adds vertical padding so turning pages still fit */
+.book.single .leaf.flipped{visibility:hidden;transition:transform .95s cubic-bezier(.645,.045,.355,1),visibility 0s .95s}
+
+/* paper */
+.paper{position:absolute;inset:0;background:var(--paper);color:var(--ink);
+  font-size:clamp(11px,2.85cqi,17px);line-height:1.55;
+  padding:7.5cqi 9cqi 6cqi;display:flex;flex-direction:column;gap:.6em}
+.front .paper{border-radius:0 6px 6px 0;
+  background-image:linear-gradient(to right,rgba(0,0,0,.13),rgba(0,0,0,.03) 5%,transparent 10%);
+  box-shadow:inset -1px 0 0 var(--paper-edge),3px 4px 14px rgba(0,0,0,.18)}
+.back .paper{border-radius:6px 0 0 6px;
+  background-image:linear-gradient(to left,rgba(0,0,0,.13),rgba(0,0,0,.03) 5%,transparent 10%);
+  box-shadow:inset 1px 0 0 var(--paper-edge),-3px 4px 14px rgba(0,0,0,.18)}
+.book.single .front .paper{border-radius:4px 8px 8px 4px;background-image:linear-gradient(to right,rgba(0,0,0,.08),transparent 4%)}
+.runhead,.folio{font:500 .66em var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft);display:flex;justify-content:space-between;gap:1em}
+.runhead{border-bottom:1px solid var(--rule);padding-bottom:.6em}
+.folio{margin-top:auto;padding-top:.6em;justify-content:center}
+.body{flex:1;min-height:0;overflow-y:auto;scrollbar-width:thin;padding-right:.2em}
+.body > :first-child{margin-top:0}
+.body{padding-bottom:8px}
+.body h1{font-size:1.75em;line-height:1.15;margin:.2em 0 .6em;text-wrap:balance;font-weight:700}
+.body h2{font-size:1.25em;margin:1em 0 .4em;text-wrap:balance}
+.body h2:first-child{margin-top:0}
+.body p,.body ul,.body ol{margin:0 0 .75em}
+.body ul,.body ol{padding-left:1.3em}
+.body li{margin-bottom:.25em}
+.body strong{font-weight:700}
+.body table{border-collapse:collapse;width:100%;font-size:.88em;margin:.4em 0 .9em;font-variant-numeric:tabular-nums}
+.body th{font:500 .78em var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);text-align:left}
+.body th,.body td{border-bottom:1px solid var(--rule);padding:.4em .5em;vertical-align:top}
+.body blockquote{margin:.6em 0 .9em;background:var(--note);border-left:3px solid var(--note-edge);padding:.6em .85em;border-radius:2px 6px 6px 2px;transform:rotate(-.4deg)}
+.body blockquote p{margin:0}
+.body details{border:1px solid var(--rule);border-radius:6px;padding:.45em .7em;margin:0 0 .6em;background:rgba(255,255,255,.45)}
+.body summary{cursor:pointer;font-weight:600}
+.body summary:focus-visible{outline:2px solid var(--b);outline-offset:2px}
+.body details[open] summary{margin-bottom:.35em;color:var(--b)}
+.body em{font-style:italic}
+.body img{display:block;width:90%;max-width:100%;height:auto;margin:.5em auto .8em;border-radius:6px}
+.body p:has(>img){margin:0}
+.body pre{margin:.4em 0 .8em;background:#f1efe7;border:1px solid var(--rule);border-radius:6px;padding:.55em .7em;overflow-x:auto;font-size:.78em;line-height:1.45;tab-size:2}
+.body code{font-family:var(--mono);font-size:.88em}
+.body pre code{font-size:1em}
+.body :not(pre)>code{background:#f1efe7;padding:.05em .3em;border-radius:3px}
+.book.single .body img{width:82%}
+.book.single .body th,.book.single .body td{padding:.28em .45em}
+.eyebrow{font:500 .7em var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--b)}
+.dogear{position:absolute;right:0;bottom:0;width:7cqi;height:7cqi;
+  background:linear-gradient(225deg,transparent 50%,var(--paper-edge) 50%);opacity:0;transition:opacity .2s}
+.leaf:hover .front .dogear{opacity:1}
+
+/* covers */
+.cover{position:absolute;inset:0;border-radius:3px 10px 10px 3px;color:var(--foil);
+  background:
+    linear-gradient(to right,rgba(0,0,0,.35),transparent 7%),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 1px,transparent 1px 22px),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 1px,transparent 1px 22px),
+    var(--cloth);
+  box-shadow:4px 6px 22px rgba(0,0,0,.35);padding:11cqi 10cqi;display:flex;flex-direction:column;gap:5cqi;font-size:clamp(12px,3cqi,18px)}
+.cover.backside{border-radius:10px 3px 3px 10px;background:linear-gradient(to left,rgba(0,0,0,.35),transparent 7%),var(--cloth-dark);justify-content:flex-end}
+.cover .eyebrow{color:var(--foil);opacity:.8}
+.cover h1{font-size:2.6em;line-height:1.05;margin:0;font-weight:700;text-wrap:balance}
+.cover p{margin:0;font-style:italic;opacity:.9;max-width:26ch}
+.cover .ab{margin-top:auto;display:flex;gap:1em;align-items:center;font:500 1em var(--mono)}
+.cover .ab span{border:1px solid currentColor;border-radius:4px;padding:.15em .6em}
+.cover .ab i{font-style:normal;opacity:.7}
+.cover small{font:400 .75em var(--mono);opacity:.75}
+
+/* contents */
+.toc{list-style:none;margin:0;padding:0;display:grid;gap:.15em}
+.toc button{all:unset;cursor:pointer;display:grid;grid-template-columns:2.2em 1fr auto;gap:.4em;align-items:baseline;width:100%;padding:.35em .2em;border-bottom:1px dotted var(--rule)}
+.toc button:hover .t{color:var(--b)}
+.toc button:focus-visible{outline:2px solid var(--b)}
+.toc .n{font:500 .8em var(--mono);color:var(--ink-soft)}
+.toc .t{font-weight:600}
+.toc .d{display:block;font-weight:400;font-style:italic;font-size:.84em;color:var(--ink-soft);line-height:1.4;margin-top:.15em}
+.toc button{padding:.55em .2em}
+.toc .p{font:400 .8em var(--mono);color:var(--ink-soft);font-variant-numeric:tabular-nums}
+
+/* controls */
+.controls{display:flex;align-items:center;gap:10px}
+.controls button{font:500 .85rem var(--mono);color:var(--desk-ink);background:transparent;border:1px solid var(--desk-line);border-radius:999px;padding:8px 16px;cursor:pointer}
+.controls button:hover:not(:disabled){border-color:var(--desk-ink)}
+.controls button:focus-visible{outline:2px solid var(--b);outline-offset:2px}
+.controls button:disabled{opacity:.35;cursor:default}
+.controls .zoom{padding:8px 12px;min-width:2.6em}
+.controls .zlvl{font:500 .78rem var(--mono);color:var(--desk-muted);min-width:3.2em;text-align:center}
+.hint{font:400 .76rem var(--mono);color:var(--desk-muted);margin:0;text-align:center}
+@media (prefers-reduced-motion: reduce){.leaf,.book{transition:none!important}}
+</style>
+
+<header class="topbar">
+  <b id="bookTitle">Testing Prompts Like a Pro</b>
+  <span class="where" id="where" aria-live="polite">Cover</span>
+</header>
+<div class="stage" id="stage"><div class="book no-anim" id="book"></div></div>
+<nav class="controls">
+  <button id="prev" aria-label="Previous page">← Back</button>
+  <button id="next" aria-label="Next page">Next →</button>
+  <span style="width:10px"></span>
+  <button id="zout" class="zoom" aria-label="Zoom out" title="Zoom out (−)">A−</button>
+  <button id="zreset" class="zlvl" style="all:unset;cursor:pointer" aria-label="Reset zoom" title="Reset zoom (0)">100%</button>
+  <button id="zin" class="zoom" aria-label="Zoom in" title="Zoom in (+)">A+</button>
+</nav>
+<p class="hint">Click the right page to turn forward, the left page to go back. Arrow keys and swipes work too.</p>
+
+
+<script>
+const bookEl=document.getElementById('book'), stageEl=document.getElementById('stage');
+const whereEl=document.getElementById('where'), prevBtn=document.getElementById('prev'), nextBtn=document.getElementById('next');
+const narrow=matchMedia('(max-width: 760px)');
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)');
+let meta={title:'Testing Prompts Like a Pro',subtitle:''}, chapters=[], base=[], pages=[], current=0, nLeaves=0;
+const STORE='prompt-book-page';
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+// Page-turn tuning. FLIP_MS must match the .leaf transition in the CSS.
+const FLIP_MS=950, GAP_MS=110;
+const WINDOW=3;     // leaves kept in the DOM on each side of the open spread
+const MAX_ANIM=6;   // a long jump (contents -> chapter) animates only its first and last 3 leaves
+const WARM=8;       // pre-download/decode images this many leaves ahead and behind
+const mounted=new Map();  // leaf index -> element currently in the DOM
+const built=new Map();    // leaf index -> element built once, reused (keeps <details> open state)
+const flights=new Map();  // leaf index -> timers of a turn in progress
+const warmed=new Map();   // image src -> Image kept alive so it stays decoded
+let zSeq=0;
+
+async function load(){
+  const fontsReady=waitForFonts();
+  try{
+    // no-cache = always revalidate (cheap 304) instead of no-store (full re-download every visit)
+    const r=await fetch('chapters/contents.md',{cache:'no-cache'});
+    if(!r.ok) throw new Error('contents.md '+r.status);
+    const toc=parseContents(await r.text());
+    meta=toc.meta;
+    if(!toc.entries.length) throw new Error('No chapters listed in contents.md');
+    const texts=await Promise.all(toc.entries.map(e=>fetch('chapters/'+e.file,{cache:'no-cache'}).then(x=>{if(!x.ok)throw new Error(e.file+' is listed in contents.md but could not be loaded');return x.text()})));
+    chapters=texts.map((md,i)=>({n:i+1,md,file:toc.entries[i].file,title:toc.entries[i].title,desc:toc.entries[i].desc}));
+    buildBase();
+  }catch(e){
+    base=[{kind:'cover'},{kind:'error',msg:String(e.message||e)}];
+  }
+  await fontsReady; // draw pages once, in the final fonts, instead of Georgia then a swap
+  document.getElementById('bookTitle').textContent=meta.title;
+  let saved=0; try{saved=+localStorage.getItem(STORE)||0}catch(_){}
+  layout(saved);
+}
+function waitForFonts(){
+  if(!document.fonts||!document.fonts.load) return Promise.resolve();
+  const faces=['400 1em Literata','600 1em Literata','700 1em Literata','italic 400 1em Literata','400 1em "IBM Plex Mono"','500 1em "IBM Plex Mono"'];
+  return Promise.race([Promise.all(faces.map(f=>document.fonts.load(f).catch(()=>{}))),new Promise(r=>setTimeout(r,1500))]);
+}
+
+// contents.md: "# Book title", "> subtitle", then a list of
+// "1. [Chapter name](file.md)" lines, each followed by an indented description line.
+// The order of the list is the order of the book.
+function parseContents(md){
+  md=md.replace(/<!--[\s\S]*?-->/g,'');
+  const lines=md.split(/\r?\n/), entries=[];
+  const meta={title:(md.match(/^#\s+(.+)$/m)||[,'Untitled'])[1].trim(),subtitle:(md.match(/^>\s*(.+)$/m)||[,''])[1].trim()};
+  lines.forEach((ln,i)=>{
+    const m=ln.match(/^\s*(?:\d+\.|[-*])\s+\[(.+?)\]\(([^)]+\.md)\)/);
+    if(!m) return;
+    let desc=''; for(let j=i+1;j<lines.length&&/^\s{2,}\S/.test(lines[j]);j++) desc+=(desc?' ':'')+lines[j].trim();
+    entries.push({title:m[1].trim(),file:m[2].trim(),desc});
+  });
+  return {meta,entries};
+}
+const TOC_PER_PAGE=3;
+function buildBase(){
+  base=[{kind:'cover'}];
+  for(let i=0;i<chapters.length;i+=TOC_PER_PAGE) base.push({kind:'toc',items:chapters.slice(i,i+TOC_PER_PAGE),firstToc:i===0,folio:base.length});
+  let folio=base.length-1;
+  chapters.forEach(ch=>{
+    const parts=ch.md.split(/^\s*<!--\s*page\s*-->\s*$/m).filter(p=>p.trim());
+    ch.start=base.length; ch.folio=folio+1;
+    // markdown is parsed lazily, the first time a page is built
+    parts.forEach((p,i)=>{folio++;base.push({kind:'text',md:p,html:null,ch,first:i===0,folio})});
+  });
+  base.push({kind:'end',folio:++folio});
+}
+
+function paper(inner,head,foot){
+  return `<div class="paper">${head?`<div class="runhead">${head}</div>`:''}<div class="body">${inner}</div>${foot?`<div class="folio">${foot}</div>`:''}</div><div class="dogear"></div>`;
+}
+function faceHTML(p){
+  if(!p) return '<div class="paper"></div>';
+  switch(p.kind){
+    case 'cover': return `<div class="cover"><span class="eyebrow">A field guide · Vol. 1</span><h1>${esc(meta.title)}</h1><p>${esc(meta.subtitle||'')}</p><div class="ab"><span>A</span><i>vs</i><span>B</span></div><small>${chapters.length} chapters · click to open</small></div>`;
+    case 'backcover': return `<div class="cover backside"><small>Written as we go. New chapters appear here when new .md files are added.</small></div>`;
+    case 'toc': return paper(`<h1>${p.firstToc?'Contents':'Contents, continued'}</h1><ol class="toc">${p.items.map(c=>`<li><button data-go="${c.start}"><span class="n">${String(c.n).padStart(2,'0')}</span><span class="t">${esc(c.title)}${c.desc?`<span class="d">${esc(c.desc)}</span>`:''}</span><span class="p">${c.folio}</span></button></li>`).join('')}</ol>`,'<span>Contents</span>',String(p.folio));
+    case 'text': if(p.html===null) p.html=marked.parse(p.md);
+      return paper((p.first?`<div class="eyebrow">Chapter ${p.ch.n}</div>`:'')+p.html,`<span>Ch. ${p.ch.n}</span><span>${esc(p.ch.title)}</span>`,String(p.folio));
+    case 'end': return paper(`<h1>End of volume 1</h1><p>You now know the full loop: lock everything but the prompt, test on a golden set, grade fairly, beat the noise, then go live carefully.</p><p><button data-go="1" style="all:unset;cursor:pointer;color:var(--b);font-weight:600">↺ Back to contents</button></p>`,'<span>Fin</span>',String(p.folio));
+    case 'error': return paper(`<h1>Couldn't load the chapters</h1><p>The book reads its pages from <code>chapters/*.md</code>. Open it through a web server (or the published link), not by double-clicking the file.</p><p style="color:var(--ink-soft)">${esc(p.msg)}</p>`,'','');
+  }
+}
+
+/* ---- leaves: only a small window around the open spread lives in the DOM ---- */
+function leafPages(i){ return narrowMatches()?[pages[i],null]:[pages[2*i],pages[2*i+1]]; }
+function buildLeaf(i){
+  let L=built.get(i); if(L) return L;
+  const [front,back]=leafPages(i);
+  L=document.createElement('div'); L.className='leaf live'; L.dataset.i=i;
+  L.innerHTML=`<div class="face front">${faceHTML(front)}</div><div class="face back">${narrowMatches()?'<div class="paper"></div>':faceHTML(back)}</div>`;
+  built.set(i,L); return L;
+}
+// resting stack order: on the left the highest index is on top, on the right the lowest
+function restZ(i,flipped){ return flipped?i+1:nLeaves-i; }
+function mount(i,flipped){
+  if(i<0||i>=nLeaves) return null;
+  let L=mounted.get(i);
+  if(!L){ // set state before insertion so a freshly mounted leaf never animates
+    L=buildLeaf(i); L.classList.toggle('flipped',flipped); L.style.zIndex=restZ(i,flipped);
+    bookEl.appendChild(L); mounted.set(i,L);
+  }
+  return L;
+}
+function unmount(i){ const L=mounted.get(i); if(L){L.remove();mounted.delete(i);} }
+function sync(mountOnly){
+  const want=new Set();
+  for(let i=current-WINDOW;i<current+WINDOW;i++) if(i>=0&&i<nLeaves) want.add(i);
+  want.forEach(i=>mount(i,i<current));
+  if(mountOnly||flights.size) return; // never pull a leaf out from under a page that is still moving
+  [...mounted.keys()].forEach(i=>{ if(!want.has(i)) unmount(i); });
+  warmImages();
+}
+function warmImages(){
+  const from=Math.max(0,current-WARM), to=Math.min(nLeaves,current+WARM);
+  for(let i=from;i<to;i++) leafPages(i).forEach(p=>{
+    if(!p||p.kind!=='text') return;
+    for(const m of p.md.matchAll(/!\[[^\]]*\]\(\s*([^)\s]+)/g)){
+      const src=m[1]; if(warmed.has(src)) continue;
+      const img=new Image(); img.src=src; if(img.decode) img.decode().catch(()=>{});
+      warmed.set(src,img);
+    }
+  });
+}
+
+function layout(keepPage){
+  const single=narrow.matches;
+  pages=base.slice();
+  if(!single){
+    if(pages.length%2===0) pages.push(null); // pad so back cover lands on a back face
+    pages.push({kind:'backcover'});
+  } else pages.push({kind:'backcover'});
+  bookEl.classList.add('no-anim');
+  bookEl.classList.toggle('single',single); stageEl.classList.toggle('single',single);
+  flights.forEach(ts=>ts.forEach(clearTimeout)); flights.clear(); zSeq=0;
+  mounted.clear(); built.clear(); bookEl.replaceChildren();
+  nLeaves=single?pages.length:pages.length/2;
+  current=leafFor(Math.min(keepPage||0,base.length-1));
+  sync(); update();
+  getComputedStyle(bookEl).transform; // commit the start state, then re-enable transitions
+  bookEl.classList.remove('no-anim');
+}
+function leafFor(p){ if(narrowMatches()) return p; return p%2===0?p/2:(p+1)/2; }
+function narrowMatches(){return bookEl.classList.contains('single')}
+function visiblePages(){
+  if(narrowMatches()) return [current];
+  return [2*current-1,2*current].filter(i=>i>=0&&i<pages.length);
+}
+
+function onFace(e,dir){
+  const go=e.target.closest('[data-go]');
+  if(go){e.stopPropagation(); turnTo(leafFor(+go.dataset.go)); return;}
+  if(e.target.closest('a,button,summary,details,input,code')) return;
+  if(window.getSelection && String(getSelection()).length) return;
+  turnTo(current+dir);
+}
+function turnTo(target){
+  target=Math.max(0,Math.min(nLeaves,target));
+  if(target===current) return;
+  const fwd=target>current, seq=[];
+  if(fwd) for(let i=current;i<target;i++) seq.push(i); else for(let i=current-1;i>=target;i--) seq.push(i);
+  const pick=new Set(seq.length<=MAX_ANIM?seq:[...seq.slice(0,3),...seq.slice(-3)]);
+  const anim=seq.filter(i=>pick.has(i)||flights.has(i));
+  // leaves skipped by a long jump must not sit in the stack and cover the destination
+  seq.forEach(i=>{ if(!pick.has(i)&&!flights.has(i)) unmount(i); });
+  anim.forEach(i=>mount(i,!fwd));
+  current=target;
+  sync(true); // destination spread and its neighbours, already in their final state, under the moving leaves
+  getComputedStyle(bookEl).transform; // commit start state of any leaf mounted just now
+  const dur=reduceMotion.matches?0:FLIP_MS, gap=(anim.length>1&&dur)?GAP_MS:0;
+  anim.forEach((i,k)=>fly(i,fwd,k*gap,dur));
+  update();
+}
+// z-order is set before the leaf moves, swapped at the spine, and settled when it lands:
+// still on its starting side, an earlier-started leaf stays on top; after the spine, a later-landing leaf is on top.
+function fly(i,flip,delay,dur){
+  const L=mounted.get(i); if(!L) return;
+  (flights.get(i)||[]).forEach(clearTimeout);
+  const go=()=>{L.style.zIndex=100000-(++zSeq); L.classList.toggle('flipped',flip);};
+  const timers=[];
+  if(delay) timers.push(setTimeout(go,delay)); else go();
+  timers.push(setTimeout(()=>{L.style.zIndex=200000+(++zSeq)},delay+dur/2));
+  timers.push(setTimeout(()=>{
+    L.style.zIndex=restZ(i,flip); flights.delete(i);
+    if(!flights.size){zSeq=0; sync();}
+  },delay+dur+30));
+  flights.set(i,timers);
+}
+function update(){
+  const single=narrowMatches();
+  bookEl.classList.toggle('at-start',!single&&current===0);
+  bookEl.classList.toggle('at-end',!single&&current===nLeaves);
+  prevBtn.disabled=current===0; nextBtn.disabled=current===nLeaves;
+  const vis=visiblePages().map(i=>pages[i]).filter(Boolean);
+  const txt=vis.find(p=>p.kind==='text');
+  const lastFolio=base[base.length-1].folio||0;
+  if(!vis.length) whereEl.textContent='Closed';
+  else if(vis.some(p=>p.kind==='cover')) whereEl.textContent='Cover';
+  else if(vis.every(p=>p.kind==='backcover')) whereEl.textContent='Back cover';
+  else if(txt) whereEl.textContent=`Chapter ${txt.ch.n} of ${chapters.length} · page ${vis.map(p=>p.folio).filter(Boolean).join('–')} of ${lastFolio}`;
+  else whereEl.textContent=vis.some(p=>p.kind==='toc')?'Contents':'The end';
+  const first=visiblePages()[0]??0;
+  try{localStorage.setItem(STORE,String(Math.min(first,base.length-1)))}catch(_){}
+}
+
+bookEl.addEventListener('click',e=>{
+  const face=e.target.closest('.face'); if(!face) return;
+  onFace(e,face.classList.contains('front')?+1:-1);
+});
+prevBtn.onclick=()=>turnTo(current-1);
+nextBtn.onclick=()=>turnTo(current+1);
+const ZSTORE='prompt-book-zoom', ZMIN=.8, ZMAX=1.8;
+let zoom=1; try{zoom=+localStorage.getItem(ZSTORE)||1}catch(_){}
+function fitStage(){
+  const z=zoom>1.01; stageEl.classList.toggle('zoomed',z);
+  stageEl.style.paddingBlock=z?Math.round(bookEl.offsetHeight*.12)+'px':'';
+}
+addEventListener('resize',fitStage);
+function setZoom(z){
+  zoom=Math.round(Math.min(ZMAX,Math.max(ZMIN,z))*100)/100;
+  bookEl.style.setProperty('--zoom',zoom);
+  fitStage();
+  document.getElementById('zreset').textContent=Math.round(zoom*100)+'%';
+  document.getElementById('zout').disabled=zoom<=ZMIN; document.getElementById('zin').disabled=zoom>=ZMAX;
+  try{localStorage.setItem(ZSTORE,String(zoom))}catch(_){}
+}
+document.getElementById('zin').onclick=()=>setZoom(zoom+.2);
+document.getElementById('zout').onclick=()=>setZoom(zoom-.2);
+document.getElementById('zreset').onclick=()=>setZoom(1);
+setZoom(zoom);
+document.addEventListener('keydown',e=>{
+  if(e.metaKey||e.ctrlKey||e.altKey) return;
+  if(e.key==='+'||e.key==='=') setZoom(zoom+.2);
+  if(e.key==='-'||e.key==='_') setZoom(zoom-.2);
+  if(e.key==='0') setZoom(1);
+  if(e.key==='ArrowRight'||e.key==='PageDown') turnTo(current+1);
+  if(e.key==='ArrowLeft'||e.key==='PageUp') turnTo(current-1);
+});
+let tx=null;
+bookEl.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+bookEl.addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx;tx=null;if(zoom<=1.05&&Math.abs(dx)>45){turnTo(current+(dx<0?1:-1))}});
+// only rebuild when the layout mode (one page / two pages) changes, not on every resize
+narrow.addEventListener('change',()=>{const p=visiblePages()[0]??0;layout(Math.min(p,base.length-1))});
+load();
+</script>

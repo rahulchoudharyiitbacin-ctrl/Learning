@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" font-family="Helvetica, Arial, sans-serif">
+  <defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#56616a"/></marker></defs>
+  <text x="10" y="34" font-size="20" font-weight="700" letter-spacing="2" fill="#13857a">OFFLINE</text>
+  <g font-size="21" fill="#1d262d" text-anchor="middle">
+    <rect x="10" y="50" width="160" height="70" rx="10" fill="#d3eeea" stroke="#13857a"/><text x="90" y="82">Fixed</text><text x="90" y="107">test set</text>
+    <rect x="220" y="50" width="160" height="70" rx="10" fill="#d3eeea" stroke="#13857a"/><text x="300" y="82">Run A</text><text x="300" y="107">and B</text>
+    <rect x="430" y="50" width="160" height="70" rx="10" fill="#d3eeea" stroke="#13857a"/><text x="510" y="82">Graded</text><text x="510" y="107">scores</text>
+  </g>
+  <path d="M172 85 H216 M382 85 H426" stroke="#56616a" stroke-width="3" marker-end="url(#ar)"/>
+  <text x="10" y="152" font-size="18" fill="#56616a">Before launch. Fast, cheap, safe.</text>
+  <line x1="10" y1="180" x2="590" y2="180" stroke="#dcd8cc" stroke-width="2" stroke-dasharray="6 6"/>
+  <text x="10" y="222" font-size="20" font-weight="700" letter-spacing="2" fill="#b8661a">ONLINE</text>
+  <g font-size="21" fill="#1d262d" text-anchor="middle">
+    <rect x="10" y="238" width="160" height="70" rx="10" fill="#f6e4cf" stroke="#b8661a"/><text x="90" y="270">Real</text><text x="90" y="295">users</text>
+    <rect x="220" y="238" width="160" height="70" rx="10" fill="#f6e4cf" stroke="#b8661a"/><text x="300" y="270">Split:</text><text x="300" y="295">A or B</text>
+    <rect x="430" y="238" width="160" height="70" rx="10" fill="#f6e4cf" stroke="#b8661a"/><text x="510" y="270">Outcome</text><text x="510" y="295">metric</text>
+  </g>
+  <path d="M172 273 H216 M382 273 H426" stroke="#56616a" stroke-width="3" marker-end="url(#ar)"/>
+  <text x="10" y="340" font-size="18" fill="#56616a">After launch. Slower, shows real behavior.</text>
+</svg>

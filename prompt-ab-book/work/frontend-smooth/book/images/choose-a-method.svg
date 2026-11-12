@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" font-family="Helvetica, Arial, sans-serif">
+  <defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#56616a"/></marker></defs>
+  <g font-size="19" fill="#1d262d" text-anchor="middle">
+    <rect x="8" y="8" width="268" height="58" rx="10" fill="#eef1f2" stroke="#c9d3d8"/><text x="142" y="43">Can a rule check it?</text>
+    <rect x="8" y="88" width="268" height="58" rx="10" fill="#eef1f2" stroke="#c9d3d8"/><text x="142" y="112">Reference answer,</text><text x="142" y="134">wording may vary?</text>
+    <rect x="8" y="168" width="268" height="58" rx="10" fill="#eef1f2" stroke="#c9d3d8"/><text x="142" y="192">Needs judgment?</text><text x="142" y="214" font-size="16" fill="#56616a">tone, helpfulness, faithfulness</text>
+    <rect x="8" y="248" width="268" height="58" rx="10" fill="#eef1f2" stroke="#c9d3d8"/><text x="142" y="272">High stakes, or</text><text x="142" y="294">checking the judge?</text>
+    <rect x="8" y="328" width="268" height="58" rx="10" fill="#eef1f2" stroke="#c9d3d8"/><text x="142" y="352">Real users in</text><text x="142" y="374">production?</text>
+
+    <rect x="344" y="8" width="248" height="58" rx="10" fill="#d3eeea" stroke="#13857a" stroke-width="2"/><text x="468" y="34" font-weight="700">Code check</text><text x="468" y="55" font-size="16" fill="#56616a">exact, regex, JSON, tests</text>
+    <rect x="344" y="88" width="248" height="58" rx="10" fill="#d3eeea" stroke="#13857a" stroke-width="2"/><text x="468" y="114" font-weight="700">Similarity</text><text x="468" y="135" font-size="16" fill="#56616a">embeddings, overlap, NLI</text>
+    <rect x="344" y="168" width="248" height="58" rx="10" fill="#d3eeea" stroke="#13857a" stroke-width="2"/><text x="468" y="194" font-weight="700">LLM judge</text><text x="468" y="215" font-size="16" fill="#56616a">rubric, validated</text>
+    <rect x="344" y="248" width="248" height="58" rx="10" fill="#d3eeea" stroke="#13857a" stroke-width="2"/><text x="468" y="274" font-weight="700">Human review</text><text x="468" y="295" font-size="16" fill="#56616a">domain expert</text>
+    <rect x="344" y="328" width="248" height="58" rx="10" fill="#d3eeea" stroke="#13857a" stroke-width="2"/><text x="468" y="354" font-weight="700">User signals</text><text x="468" y="375" font-size="16" fill="#56616a">thumbs, edits, retries</text>
+  </g>
+  <g font-size="16" fill="#0b5e56" text-anchor="middle"><text x="310" y="32">yes</text><text x="310" y="112">yes</text><text x="310" y="192">yes</text><text x="310" y="272">yes</text><text x="310" y="352">yes</text></g>
+  <path d="M278 37 H340 M278 117 H340 M278 197 H340 M278 277 H340 M278 357 H340" stroke="#13857a" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <path d="M142 68 V84 M142 148 V164 M142 228 V244 M142 308 V324" stroke="#56616a" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+  <g font-size="14" fill="#56616a"><text x="150" y="80">no</text><text x="150" y="160">no</text><text x="150" y="240">no</text><text x="150" y="320">no</text></g>
+</svg>

@@ -1,0 +1,13 @@
+name: ticket-triage-v1-vs-v2
+hypothesis: v2 (3 worked examples) lifts accuracy by 2+ pts
+model: claude-haiku-5-5
+effort: low
+max_tokens: 1024
+variants:
+  A: prompts/triage/v1.txt
+  B: prompts/triage/v2.txt
+dataset: data/cases-v1.jsonl
+runs_per_case: 3
+grader: exact_match
+primary_metric: accuracy
+min_gain: 0.02
